@@ -1,0 +1,89 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <28825609+KennyTV@users.noreply.github.com>
+Date: Sun, 15 Dec 2019 13:36:05 +0100
+Subject: [PATCH] Player database id
+
+
+diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
+index 7b79ee4fe5893d0c8c5825776c3c09ca8553abc8..2c8bf07372fee46666438498b8af9f3f51dcb191 100644
+--- a/src/main/java/net/minecraft/server/PlayerList.java
++++ b/src/main/java/net/minecraft/server/PlayerList.java
+@@ -72,6 +72,7 @@ public abstract class PlayerList {
+     // CraftBukkit start
+     private CraftServer cserver;
+     private final Map<String,EntityPlayer> playersByName = new java.util.HashMap<>();
++    public final it.unimi.dsi.fastutil.ints.Int2ObjectMap<EntityPlayer> playersById = new it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap<>(); // Luminu - database id
+     @Nullable String collideRuleTeamName; // Paper - Team name used for collideRule
+ 
+     public PlayerList(MinecraftServer minecraftserver, int i) {
+@@ -184,6 +185,7 @@ public abstract class PlayerList {
+         playerconnection.a(entityplayer.locX(), entityplayer.locY(), entityplayer.locZ(), entityplayer.yaw, entityplayer.pitch);
+         this.players.add(entityplayer);
+         this.playersByName.put(entityplayer.getName().toLowerCase(java.util.Locale.ROOT), entityplayer); // Spigot
++        this.playersById.put(entityplayer.getBukkitEntity().getDatabaseId(), entityplayer); // Luminu - database id
+         this.j.put(entityplayer.getUniqueID(), entityplayer);
+         // this.sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, new EntityPlayer[]{entityplayer})); // CraftBukkit - replaced with loop below
+ 
+@@ -448,6 +450,7 @@ public abstract class PlayerList {
+         entityplayer.getAdvancementData().a();
+         this.players.remove(entityplayer);
+         this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
++        this.playersById.remove(entityplayer.getBukkitEntity().getDatabaseId()); // Luminu - database id
+         this.server.getBossBattleCustomData().b(entityplayer);
+         UUID uuid = entityplayer.getUniqueID();
+         EntityPlayer entityplayer1 = (EntityPlayer) this.j.get(uuid);
+@@ -603,6 +606,7 @@ public abstract class PlayerList {
+         entityplayer.stopRiding(); // CraftBukkit
+         this.players.remove(entityplayer);
+         this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
++        this.playersById.remove(entityplayer.getBukkitEntity().getDatabaseId()); // Luminu - database id
+         entityplayer.getWorldServer().removePlayer(entityplayer);
+         BlockPosition blockposition = entityplayer.getBed();
+         boolean flag1 = entityplayer.isRespawnForced();
+@@ -717,6 +721,7 @@ public abstract class PlayerList {
+             worldserver.addPlayerRespawn(entityplayer1);
+             this.players.add(entityplayer1);
+             this.playersByName.put(entityplayer1.getName().toLowerCase(java.util.Locale.ROOT), entityplayer1); // Spigot
++            this.playersById.put(entityplayer.getBukkitEntity().getDatabaseId(), entityplayer); // Luminu - database id
+             this.j.put(entityplayer1.getUniqueID(), entityplayer1);
+         }
+         // entityplayer1.syncInventory();
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 1c1140a6bf70bb653148797256104fdaafe404f9..0e2629ebe4ee1f5d84a009ed364e910dfb1a1622 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -490,6 +490,12 @@ public final class CraftServer implements Server {
+     public net.luminu.paper.locale.PaperLocaleProvider getLocaleProvider() {
+         return localeProvider;
+     }
++
++    @Override
++    public Player getPlayer(int databaseId) {
++        EntityPlayer player = playerList.playersById.get(databaseId);
++        return (player != null) ? player.getBukkitEntity() : null;
++    }
+     // Luminu end
+ 
+     @Override
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index a845ebdb9967571c4f44b5c8baf4a3f6d15ceee7..6e3b4e31fe4623928cce1afe0983b5de87c5d51f 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -1921,6 +1921,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+ 
+     // Luminu start
+     private java.util.Locale locale;
++    private int databaseId;
++
++    @Override
++    public int getDatabaseId() {
++        return databaseId;
++    }
++
++    @Override
++    public void setDatabaseId(int databaseId) {
++        this.databaseId = databaseId;
++    }
+ 
+     @Override
+     public java.util.Locale getSetLocale() {

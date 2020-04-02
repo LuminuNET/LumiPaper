@@ -1,0 +1,49 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <KennyTV@users.noreply.github.com>
+Date: Fri, 14 Dec 2018 21:52:29 -0800
+Subject: [PATCH] Luminu Paper POM Changes
+
+
+diff --git a/pom.xml b/pom.xml
+index a71015f40acb309916f1b6ae1822d711b28dc3a9..6860acf33665794ec2f8e095876a0651b77b5c8e 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -3,17 +3,17 @@
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+     <parent>
+-        <groupId>com.destroystokyo.paper</groupId>
++        <groupId>net.luminu.paper</groupId>
+         <artifactId>paper-parent</artifactId>
+         <version>dev-SNAPSHOT</version>
++        <relativePath>../pom.xml</relativePath>
+     </parent>
+ 
+-    <groupId>com.destroystokyo.paper</groupId>
+     <artifactId>paper-api</artifactId>
+     <version>1.15.2-R0.1-SNAPSHOT</version>
+     <packaging>jar</packaging>
+ 
+-    <name>Paper-API</name>
++    <name>LumiPaper-API</name>
+     <url>https://github.com/PaperMC/Paper</url>
+     <description>An enhanced plugin API for Minecraft servers.</description>
+ 
+@@ -253,4 +253,17 @@
+             </build>
+         </profile>
+     </profiles>
++
++    <!-- Luminu start - distribution management -->
++    <distributionManagement>
++        <snapshotRepository>
++            <id>luminu</id>
++            <url>http://repo.luminu.net/repository/luminu-snapshots/</url>
++        </snapshotRepository>
++        <repository>
++            <id>luminu</id>
++             <url>http://repo.luminu.net/repository/luminu-releases/</url>
++        </repository>
++    </distributionManagement>
++    <!-- Luminu end -->
+ </project>

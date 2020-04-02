@@ -1,0 +1,50 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <28825609+KennyTV@users.noreply.github.com>
+Date: Wed, 31 Jul 2019 13:23:55 +0200
+Subject: [PATCH] Readd servername property
+
+
+diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
+index 6db69159117a4307985bd8a2db2d39e9b44d2241..668d0d2edda09c9298527fb6df51621aeb37ec97 100644
+--- a/src/main/java/org/bukkit/Bukkit.java
++++ b/src/main/java/org/bukkit/Bukkit.java
+@@ -98,6 +98,18 @@ public final class Bukkit {
+         return server.getName();
+     }
+ 
++    // Luminu start - readd servername
++    /**
++     * Gets the server name set in the server properties.
++     *
++     * @return server name
++     */
++    @NotNull
++    public static String getServerName() {
++        return server.getServerName();
++    }
++    // Luminu end
++
+     /**
+      * Gets the version string of this server implementation.
+      *
+diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
+index 27d3b5ad73f579104417cc8d0a7e27f1fc2b9700..cd12a321723c023c9ab5b59f38bbad62252dc80f 100644
+--- a/src/main/java/org/bukkit/Server.java
++++ b/src/main/java/org/bukkit/Server.java
+@@ -81,6 +81,16 @@ public interface Server extends PluginMessageRecipient {
+     @NotNull
+     public String getName();
+ 
++    // Luminu start - readd servername
++    /**
++     * Gets the server name set in the server properties.
++     *
++     * @return server name
++     */
++    @NotNull
++    public String getServerName();
++    // Luminu end
++
+     /**
+      * Gets the version string of this server implementation.
+      *

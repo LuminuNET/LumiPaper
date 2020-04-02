@@ -1,0 +1,40 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <28825609+KennyTV@users.noreply.github.com>
+Date: Sat, 3 Aug 2019 21:14:26 +0200
+Subject: [PATCH] Accessibility changes
+
+
+diff --git a/src/main/java/org/bukkit/event/player/PlayerEvent.java b/src/main/java/org/bukkit/event/player/PlayerEvent.java
+index 793b661b6d2d05de3d7f4fc26a4c018a2af58e62..6ed39628d871cc71768ff865d6c0c7db0c558465 100644
+--- a/src/main/java/org/bukkit/event/player/PlayerEvent.java
++++ b/src/main/java/org/bukkit/event/player/PlayerEvent.java
+@@ -14,7 +14,7 @@ public abstract class PlayerEvent extends Event {
+         player = who;
+     }
+ 
+-    PlayerEvent(@NotNull final Player who, boolean async) {
++    public PlayerEvent(@NotNull final Player who, boolean async) { // Luminu - make constructor public
+         super(async);
+         player = who;
+ 
+diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
+index 8355f9f0eb1b554bf6cfd3883afd2bdd2bf8c357..4a6b985ea88823a9b386cdf506ebd34fe724ec3e 100644
+--- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
++++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
+@@ -588,12 +588,16 @@ public final class SimplePluginManager implements PluginManager {
+      */
+     @Override
+     public void callEvent(@NotNull Event event) {
++        // Luminu - remove async check
+         // Paper - replace callEvent by merging to below method
++        /*
+         if (event.isAsynchronous() && server.isPrimaryThread()) {
+             throw new IllegalStateException(event.getEventName() + " may only be triggered asynchronously.");
+         } else if (!event.isAsynchronous() && !server.isPrimaryThread()) {
+             throw new IllegalStateException(event.getEventName() + " may only be triggered synchronously.");
+         }
++        */
++        // Luminu end
+ 
+         HandlerList handlers = event.getHandlers();
+         RegisteredListener[] listeners = handlers.getRegisteredListeners();

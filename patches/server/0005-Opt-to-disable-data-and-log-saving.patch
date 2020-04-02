@@ -1,0 +1,87 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <28825609+KennyTV@users.noreply.github.com>
+Date: Sat, 9 Nov 2019 13:24:50 +0100
+Subject: [PATCH] Opt to disable data and log saving
+
+
+diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
+index 1ef7890da599d13e784861035e7891efcc4cd504..14917bc07d760d7db6c595c4e1c97ff9e71824d5 100644
+--- a/src/main/java/net/minecraft/server/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/DedicatedServer.java
+@@ -155,6 +155,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+         */
+         // Paper end
+ 
++        // Luminu start - option to disable log file saving
++        java.util.Map<String, org.apache.logging.log4j.core.Appender> appenders = ((org.apache.logging.log4j.core.Logger) LogManager.getRootLogger()).getAppenders();
++        if (!this.propertyManager.getProperties().saveLogsToFile) {
++            appenders.remove("File");
++            logger.info("Disabled log file saving!");
++        }
++        // Luminu end
++
+         // Paper start - Use Log4j IOStreams
+         System.setOut(org.apache.logging.log4j.io.IoBuilder.forLogger(logger).setLevel(Level.INFO).buildPrintStream());
+         System.setErr(org.apache.logging.log4j.io.IoBuilder.forLogger(logger).setLevel(Level.WARN).buildPrintStream());
+diff --git a/src/main/java/net/minecraft/server/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
+index b1cadcc2f019334f693f48aa3f3f117ae4ed1980..5b773ed7b8f8a73ea4cee0d52812deddd7c633a3 100644
+--- a/src/main/java/net/minecraft/server/DedicatedServerProperties.java
++++ b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
+@@ -54,6 +54,8 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
+     public final PropertyManager<DedicatedServerProperties>.EditableProperty<Integer> playerIdleTimeout;
+     public final PropertyManager<DedicatedServerProperties>.EditableProperty<Boolean> whiteList;
+     public String serverName; // Luminu - readd (configurable) servername
++    public boolean saveDataOnStop; // Luminu - option to disable world and player data saving on stop
++    public boolean saveLogsToFile; // Luminu - option to disable log file saving
+ 
+     public final String rconIp; // Paper - Add rcon ip
+ 
+@@ -108,6 +110,8 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
+         this.rconIp = rconIp == null ? this.serverIp : rconIp;
+         // Paper end
+         this.serverName = this.getString("server-name", "Unknown server"); // Luminu - readd servername
++        this.saveDataOnStop = this.getBoolean("save-world-on-stop", true); // Luminu - option to disable world and player data saving on stop
++        this.saveLogsToFile = this.getBoolean("save-log-files", true); // Luminu - option to disable log file saving
+     }
+ 
+     // CraftBukkit start
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index c9deaffc4a317c8ec75d9e6ef5889ab909e2fbe8..79c0e3791c751e8538954b35be045a36d1998930 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -746,6 +746,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+             this.getServerConnection().b();
+         }
+ 
++        // Luminu start - add option to disable saving
++        if (server.getServer().propertyManager.getProperties().saveDataOnStop) { // don't indent because of larger diff :(
+         if (this.playerList != null) {
+             MinecraftServer.LOGGER.info("Saving players");
+             this.playerList.savePlayers();
+@@ -789,6 +791,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+             this.getUserCache().c(false); // Paper
+         }
+         // Spigot end
++        } // Luminu end
+         com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
+     }
+ 
+@@ -959,13 +962,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+                 crashreport = this.b(new CrashReport("Exception in server tick loop", throwable));
+             }
+ 
++            // Luminu start - option to disable log file saving
++            if (server.getServer().propertyManager.getProperties().saveLogsToFile) {
+             File file = new File(new File(this.z(), "crash-reports"), "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-server.txt");
+-
+             if (crashreport.a(file)) {
+                 MinecraftServer.LOGGER.error("This crash report has been saved to: {}", file.getAbsolutePath());
+             } else {
+                 MinecraftServer.LOGGER.error("We were unable to save this crash report to disk.");
+             }
++            }
++            MinecraftServer.LOGGER.error(crashreport.e()); // Luminu - log crash report
++            // Luminu end
+ 
+             this.a(crashreport);
+         } finally {

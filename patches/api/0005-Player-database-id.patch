@@ -1,0 +1,64 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <28825609+KennyTV@users.noreply.github.com>
+Date: Sun, 15 Dec 2019 13:33:44 +0100
+Subject: [PATCH] Player database id
+
+
+diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
+index ea6da35eac3a2eb7ce7115cde0373937293357a8..6237db3364692775834a1c806b86322b6f3e1dc1 100644
+--- a/src/main/java/org/bukkit/Bukkit.java
++++ b/src/main/java/org/bukkit/Bukkit.java
+@@ -113,6 +113,11 @@ public final class Bukkit {
+     public static net.luminu.paper.locale.PaperLocaleProvider getLocaleProvider() {
+         return server.getLocaleProvider();
+     }
++
++    @Nullable
++    public static Player getPlayer(int databaseId) {
++        return server.getPlayer(databaseId);
++    }
+     // Luminu end
+ 
+     /**
+diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
+index d21bb3e3134d2a65ec7dabcec14c011c518bcf28..6e6559ca2c9c7e189606f117c1cbc42ea763953e 100644
+--- a/src/main/java/org/bukkit/Server.java
++++ b/src/main/java/org/bukkit/Server.java
+@@ -93,6 +93,9 @@ public interface Server extends PluginMessageRecipient {
+ 
+     @Nullable // only during initialization until it's set
+     public net.luminu.paper.locale.PaperLocaleProvider getLocaleProvider();
++
++    @Nullable
++    public Player getPlayer(int databaseId);
+     // Luminu end
+ 
+     /**
+diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
+index e926c93dac3fbc5e76e7968f71374aca339a64b0..a6415070851464fd42986205dfa64d4dace7491f 100644
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -626,6 +626,23 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+     public void sendActionBar(char alternateChar, @NotNull String message);
+ 
+     // Luminu start
++    /**
++     * Returns the unique user id of the player.
++     *
++     * @return luminu interal, unique user id
++     */
++    default int getDatabaseId() {
++        return 0;
++    }
++
++    /**
++     * Sets the internal, unique database user id.
++     *
++     * @param databaseId database id
++     */
++    default void setDatabaseId(int databaseId) {
++    }
++
+     /**
+      * Sends an Action Bar message to the client.
+      *

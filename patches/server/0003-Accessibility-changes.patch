@@ -1,0 +1,45 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <28825609+KennyTV@users.noreply.github.com>
+Date: Sat, 3 Aug 2019 21:17:12 +0200
+Subject: [PATCH] Accessibility changes
+
+
+diff --git a/src/main/java/net/minecraft/server/PacketPlayOutPlayerInfo.java b/src/main/java/net/minecraft/server/PacketPlayOutPlayerInfo.java
+index 9a48a4e90c1b1cbcc8dc604fdf0f20a6d0f3bd22..ca0686320f4fe00d0b72fbeaf55f0cc80df9734f 100644
+--- a/src/main/java/net/minecraft/server/PacketPlayOutPlayerInfo.java
++++ b/src/main/java/net/minecraft/server/PacketPlayOutPlayerInfo.java
+@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
+ public class PacketPlayOutPlayerInfo implements Packet<PacketListenerPlayOut> {
+ 
+     private PacketPlayOutPlayerInfo.EnumPlayerInfoAction a;
+-    private final List<PacketPlayOutPlayerInfo.PlayerInfoData> b = Lists.newArrayList();
++    public final List<PacketPlayOutPlayerInfo.PlayerInfoData> b = Lists.newArrayList(); // Luminu - make public
+ 
+     public PacketPlayOutPlayerInfo() {}
+ 
+diff --git a/src/main/java/net/minecraft/server/TileEntitySkull.java b/src/main/java/net/minecraft/server/TileEntitySkull.java
+index 0882d82cef92382cd4639ee7c9858fa5d59b3e5a..0e503815bce231a1924e5d70096cd4f8ad9458ab 100644
+--- a/src/main/java/net/minecraft/server/TileEntitySkull.java
++++ b/src/main/java/net/minecraft/server/TileEntitySkull.java
+@@ -37,7 +37,7 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
+                     .setNameFormat("Head Conversion Thread - %1$d")
+                     .build()
+     );
+-    public static final LoadingCache<String, GameProfile> skinCache = CacheBuilder.newBuilder()
++    public static LoadingCache<String, GameProfile> skinCache = CacheBuilder.newBuilder() // Luminu - remove final modifier
+             .maximumSize( 5000 )
+             .expireAfterAccess( 60, TimeUnit.MINUTES )
+             .build( new CacheLoader<String, GameProfile>()
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 16bb42f213d362eb03442282df49b403bfd7714f..7352d4c0a651b521bd894a2b43c66ac09302c59d 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -209,7 +209,7 @@ public final class CraftServer implements Server {
+     private final Logger logger = Logger.getLogger("Minecraft");
+     private final ServicesManager servicesManager = new SimpleServicesManager();
+     private final CraftScheduler scheduler = new CraftScheduler();
+-    private final CraftCommandMap commandMap = new CraftCommandMap(this);
++    private CraftCommandMap commandMap = new CraftCommandMap(this); // Luminu - remove final modifier
+     private final SimpleHelpMap helpMap = new SimpleHelpMap(this);
+     private final StandardMessenger messenger = new StandardMessenger();
+     private final SimplePluginManager pluginManager = new SimplePluginManager(this, commandMap);

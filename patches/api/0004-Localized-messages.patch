@@ -1,0 +1,328 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <28825609+KennyTV@users.noreply.github.com>
+Date: Sat, 3 Aug 2019 21:20:53 +0200
+Subject: [PATCH] Localized messages
+
+
+diff --git a/src/main/java/net/luminu/paper/locale/PaperLocaleProvider.java b/src/main/java/net/luminu/paper/locale/PaperLocaleProvider.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..17877c8f04d7071be51762691c7e5014b8769c71
+--- /dev/null
++++ b/src/main/java/net/luminu/paper/locale/PaperLocaleProvider.java
+@@ -0,0 +1,43 @@
++package net.luminu.paper.locale;
++
++import org.bukkit.command.CommandSender;
++import org.jetbrains.annotations.Nullable;
++
++import java.util.Locale;
++
++/**
++ * Interface with the bare minimum methods to be implemented by a proper system.
++ * This exists to avoid some quite reasonable overhead in otherwise created events and calls.
++ * <p>
++ * See child interfaces/implementation for further methods and details.
++ */
++public interface PaperLocaleProvider {
++
++    /**
++     * Returns the message for the given config key from the config.
++     *
++     * @param locale locale
++     * @param key    config key
++     * @return message from config if present, else null
++     */
++    String getStringMessage(Locale locale, String key);
++
++    /**
++     * Returns the message for the given config key from the config.
++     *
++     * @param locale       locale
++     * @param key          config key
++     * @param replacements replacements
++     * @return message from config if present, else null
++     */
++    String getStringMessage(Locale locale, String key, String... replacements);
++
++    /**
++     * Sends a localized message to the sender.
++     *
++     * @param sender       command sender
++     * @param key          message key
++     * @param replacements replacementsS
++     */
++    void sendMessage(CommandSender sender, String key, @Nullable String... replacements);
++}
+diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
+index c33ca929f58c313826cb07ebc24ce6c92a6958ba..ea6da35eac3a2eb7ce7115cde0373937293357a8 100644
+--- a/src/main/java/org/bukkit/Bukkit.java
++++ b/src/main/java/org/bukkit/Bukkit.java
+@@ -108,6 +108,11 @@ public final class Bukkit {
+     public static String getServerName() {
+         return server.getServerName();
+     }
++
++    @NotNull
++    public static net.luminu.paper.locale.PaperLocaleProvider getLocaleProvider() {
++        return server.getLocaleProvider();
++    }
+     // Luminu end
+ 
+     /**
+@@ -286,6 +291,29 @@ public final class Bukkit {
+         return server.broadcastMessage(message);
+     }
+ 
++    // Luminu start
++    /**
++     * Broadcast a localized message to all players.
++     *
++     * @param key message key
++     * @return the number of players
++     */
++    public static int broadcastLocalized(@NotNull String key) {
++        return server.broadcastLocalized(key);
++    }
++
++    /**
++     * Broadcast a localized message to all players.
++     *
++     * @param key message key
++     * @param replacements replacements
++     * @return the number of players
++     */
++    public static int broadcastLocalized(@NotNull String key, @NotNull String... replacements) {
++        return server.broadcastLocalized(key, replacements);
++    }
++    // Luminu end
++
+     // Paper start
+     /**
+      * Sends the component to all online players.
+diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
+index b581d44dfbdd676caaaf4eb015493df96d71bff3..d21bb3e3134d2a65ec7dabcec14c011c518bcf28 100644
+--- a/src/main/java/org/bukkit/Server.java
++++ b/src/main/java/org/bukkit/Server.java
+@@ -13,6 +13,7 @@ import java.util.Set;
+ import java.util.UUID;
+ import java.util.function.Consumer;
+ import java.util.logging.Logger;
++
+ import org.bukkit.Warning.WarningState;
+ import org.bukkit.advancement.Advancement;
+ import org.bukkit.block.data.BlockData;
+@@ -89,6 +90,9 @@ public interface Server extends PluginMessageRecipient {
+      */
+     @NotNull
+     public String getServerName();
++
++    @Nullable // only during initialization until it's set
++    public net.luminu.paper.locale.PaperLocaleProvider getLocaleProvider();
+     // Luminu end
+ 
+     /**
+@@ -235,6 +239,33 @@ public interface Server extends PluginMessageRecipient {
+      */
+     public int broadcastMessage(@NotNull String message);
+ 
++    // Luminu start
++    /**
++     * Broadcast a localized message to all players.
++     *
++     * @param key message key
++     * @return the number of players
++     */
++    public default int broadcastLocalized(@NotNull String key) {
++        return broadcastLocalized(key, (String[]) null);
++    }
++
++    /**
++     * Broadcast a localized message to all players.
++     *
++     * @param key message key
++     * @param replacements replacements
++     * @return the number of players
++     */
++    public default int broadcastLocalized(@NotNull String key, @Nullable String... replacements) {
++        java.util.Collection<? extends Player> players = getOnlinePlayers();
++        for (Player player : players) {
++            player.sendLocalized(key, replacements);
++        }
++        return players.size();
++    }
++    // Luminu end
++
+     // Paper start
+     /**
+      * Sends the component to all online players.
+diff --git a/src/main/java/org/bukkit/command/CommandSender.java b/src/main/java/org/bukkit/command/CommandSender.java
+index d3b3a8bf94dac370ea254875e4d4a30894a70c67..03e89dd9dcf83737e3d35db5f1141a1c2bee727c 100644
+--- a/src/main/java/org/bukkit/command/CommandSender.java
++++ b/src/main/java/org/bukkit/command/CommandSender.java
+@@ -13,6 +13,55 @@ public interface CommandSender extends Permissible {
+      */
+     public void sendMessage(@NotNull String message);
+ 
++    // Luminu start
++    /**
++     * Gets the player's locale set in the LocaleProvider.
++     *
++     * @return the locale as set in the LocaleProvider
++     */
++    public default java.util.Locale getSetLocale() {
++        return java.util.Locale.GERMAN;
++    }
++
++    /**
++     * Sends this sender a localized message
++     *
++     * @param key message key
++     */
++    public default void sendLocalized(@NotNull String key) {
++        sendLocalized(key, (String[]) null);
++    }
++
++    /**
++     * Sends this sender a localized message
++     *
++     * @param key message key
++     * @param replacements replacements
++     */
++    public default void sendLocalized(@NotNull String key, @org.jetbrains.annotations.Nullable String... replacements) {
++        org.bukkit.Bukkit.getLocaleProvider().sendMessage(this, key, replacements);
++    }
++
++    /**
++     * Sends this sender a localized message
++     *
++     * @param key message key
++     */
++    public default String getLocalizedString(@NotNull String key) {
++        return org.bukkit.Bukkit.getLocaleProvider().getStringMessage(getSetLocale(), key);
++    }
++
++    /**
++     * Returns a localized message
++     *
++     * @param key message key
++     * @param replacements replacements
++     */
++    public default String getLocalizedString(@NotNull String key, @org.jetbrains.annotations.Nullable String... replacements) {
++        return org.bukkit.Bukkit.getLocaleProvider().getStringMessage(getSetLocale(), key, replacements);
++    }
++    // Luminu end
++
+     /**
+      * Sends this sender multiple messages
+      *
+diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
+index 877ea4f323a84fa3c0a93c93f3d8395661b5ed3c..e926c93dac3fbc5e76e7968f71374aca339a64b0 100644
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -625,6 +625,31 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      */
+     public void sendActionBar(char alternateChar, @NotNull String message);
+ 
++    // Luminu start
++    /**
++     * Sends an Action Bar message to the client.
++     *
++     * Use Section symbols for legacy color codes to send formatting.
++     *
++     * @param key The message key
++     */
++    default void sendLocalizedActionBar(@NotNull String key) {
++        sendActionBar(getLocalizedString(key));
++    }
++
++    /**
++     * Sends an Action Bar message to the client.
++     *
++     * Use Section symbols for legacy color codes to send formatting.
++     *
++     * @param key The message key
++     * @param replacements replacements
++     */
++    default void sendLocalizedActionBar(@NotNull String key, @Nullable String... replacements) {
++        sendActionBar(getLocalizedString(key, replacements));
++    }
++    // Luminu end
++
+     /**
+      * Sends the component to the player
+      *
+@@ -1590,6 +1615,54 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      */
+     public void sendTitle(@Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut);
+ 
++    // Luminu start
++    /**
++     * Depending on whether title and/or subtitle are set in the section, they will be sent to the player.
++     * Defaults fadeIn to 10, stay to 70, fadeOut to 20.
++     *
++     * @param key message key
++     */
++    default void sendLocalizedTitle(@NotNull String key) {
++        sendLocalizedTitle(key, 10, 70, 20);
++    }
++
++    /**
++     * Depending on whether title and/or subtitle are set in the section, they will be sent to the player.
++     * Defaults fadeIn to 10, stay to 70, fadeOut to 20.
++     *
++     * @param key message key
++     * @param replacements replacements
++     */
++    default void sendLocalizedTitle(@NotNull String key, @Nullable String... replacements) {
++        sendLocalizedTitle(key, 10, 70, 20, replacements);
++    }
++
++    /**
++     * Depending on whether title and/or subtitle are set in the section, they will be sent to the player.
++     *
++     * @param key message key
++     * @param fadeIn time in ticks for titles to fade in. Defaults to 10.
++     * @param stay time in ticks for titles to stay. Defaults to 70.
++     * @param fadeOut time in ticks for titles to fade out. Defaults to 20.
++     */
++    default void sendLocalizedTitle(@NotNull String key, int fadeIn, int stay, int fadeOut) {
++        sendTitle(getLocalizedString(key + ".title"), getLocalizedString(key + ".subtitle"), fadeIn, stay, fadeOut);
++    }
++
++    /**
++     * Depending on whether title and/or subtitle are set in the section, they will be sent to the player.
++     *
++     * @param key message key
++     * @param fadeIn time in ticks for titles to fade in. Defaults to 10.
++     * @param stay time in ticks for titles to stay. Defaults to 70.
++     * @param fadeOut time in ticks for titles to fade out. Defaults to 20.
++     * @param replacements replacements
++     */
++    default void sendLocalizedTitle(@NotNull String key, int fadeIn, int stay, int fadeOut, @Nullable String... replacements) {
++        sendTitle(getLocalizedString(key + ".title", replacements), getLocalizedString(key + ".subtitle", replacements), fadeIn, stay, fadeOut);
++    }
++    // Luminu end
++
+     /**
+      * Resets the title displayed to the player. This will clear the displayed
+      * title / subtitle and reset timings to their default values.
+@@ -1832,8 +1905,19 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      * @return the player's locale
+      */
+     @NotNull
++    @Deprecated // Luminu - deprecate
+     public String getLocale();
+ 
++    // Luminu start
++    /**
++     * Sets a player's locale.
++     * Not to be confused with the locale the player has set locally in their client.
++     *
++     * @param locale locale to set
++     */
++    public void setLocale(java.util.Locale locale);
++    // Luminu end
++
+     // Paper start
+     /**
+      * Get whether the player can affect mob spawning

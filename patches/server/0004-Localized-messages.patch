@@ -1,0 +1,61 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <28825609+KennyTV@users.noreply.github.com>
+Date: Sat, 3 Aug 2019 21:27:09 +0200
+Subject: [PATCH] Localized messages
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 4b22814b5da0a503d7ebddbf4a189d055cf2b41d..2e290d03c65f5b99ecdb4efa21529301c5d9d3be 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -479,10 +479,17 @@ public final class CraftServer implements Server {
+     }
+ 
+     // Luminu start - readd servername
++    public net.luminu.paper.locale.PaperLocaleProvider localeProvider;
++
+     @Override
+     public String getServerName() {
+         return getProperties().serverName;
+     }
++
++    @Override
++    public net.luminu.paper.locale.PaperLocaleProvider getLocaleProvider() {
++        return localeProvider;
++    }
+     // Luminu end
+ 
+     @Override
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index 60f62f19cbc2c115fe7bf399877b774e6d72bdb5..a845ebdb9967571c4f44b5c8baf4a3f6d15ceee7 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -1911,6 +1911,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+     }
+ 
+     @Override
++    @Deprecated // Luminu - deprecate
+     public String getLocale() {
+         // Paper start - Locale change event
+         final String locale = getHandle().locale;
+@@ -1918,6 +1919,20 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         // Paper end
+     }
+ 
++    // Luminu start
++    private java.util.Locale locale;
++
++    @Override
++    public java.util.Locale getSetLocale() {
++        return locale;
++    }
++
++    @Override
++    public void setLocale(java.util.Locale locale) {
++        this.locale = locale;
++    }
++    // Luminu end
++
+     // Paper start
+     public void setAffectsSpawning(boolean affects) {
+         this.getHandle().affectsSpawning = affects;

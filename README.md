@@ -1,64 +1,66 @@
-# EmpireCraft #
-## What ##
-EmpireCraft is a fork of Spigot used by the [Empire Minecraft](http://ref.emc.gs/Aikar?gam=EmpireCraft) Server.
+LumiPaper
+==
 
-It contains many gameplay changes to suit our server, but more importantly, contains new performance improvements pending
-testing to be contributed to Spigot / Sponge.
+Probably not of any use for the public, but here it is anyways!
 
-We also have many API's that we privately use but choose to not publicly PR them upstream, see below for why.
+## License
+The PATCHES-LICENSE file describes the license for api & server patches, 
+found in `./patches/api` and `./patches/server`.
 
-## Why we don't release all API ##
-API's are tough to design. In public projects such as Bukkit, Spigot, Sponge etc, once an API is commited. It's almost
-forever. You can't go breaking it without solid justification. This is the politics game.
+Everything else is licensed under the MIT license. 
+See https://github.com/starlis/empirecraft and https://github.com/electronicboy/byof 
+for the license of material used/modified by this project.
 
-With that in mind, much thought has to be given to the API in now and future use cases and applications to ensure it can
-be extended without breaking.
+## Plugin developers
+In order to use Paper as a dependency you must following the steps laid out
+in `Building and setting up` and build paper. Each time you want to update
+your dependency you must re-build paper.
 
-This is a lot of politics that we don't have time in our lives to deal with.
+LumiPaper-API maven dependency:
+```xml
+<dependency>
+    <groupId>net.luminu.paper</groupId>
+    <artifactId>paper-api</artifactId>
+    <version>1.15.2-R0.1-SNAPSHOT</version>
+    <scope>provided</scope>
+ </dependency>
+ ```
+ 
+ LumiPaper-Server maven dependency:
+ ```xml
+<dependency>
+    <groupId>net.luminu.paper</groupId>
+    <artifactId>paper</artifactId>
+    <version>1.15.2-R0.1-SNAPSHOT</version>
+    <scope>provided</scope>
+ </dependency>
+  ```
 
-Therefor, we write API's to OUR base needs, which is often not 'complete' or 'up to style guidelines' of upstream repositories.
-We do not have the time to write code that we personally do not need for these API's.
+There is no repository required since the artifacts should be locally installed
+via building paper.
 
-We also want to retain the ability to make breaking changes to the API if it results in a better way to do things or
-performance improvements.
+## Building and setting up
+Run the following commands in the root directory:
 
-By contributing it upstream, we would give up that power.
+```
+git submodule init
+git submodule update
+./lumi up
+./lumi patch
+```
 
-So that is why we have many extremely useful API's that are not PR'd upstream
+This should initialize the repo such that you can now start modifying and creating 
+patches. The folder `LumiPaper-API` is the api repo and the `LumiPaper-Server` folder
+is the server repo and will contain the source files you will modify.
 
-## LICENSE / Support / Usage of Patches ##
-All patches written by Aikar, Starlis LLC, Contractors of Starlis LLC that has been included inside of EmpireCraft
-are licensed MIT, and are free to be used in your own fork.
-
-We offer ABSOLUTELY NO SUPPORT for these patches. If you wish to use them, you must take the effect to extract them
-from our repo, apply them to your own, and repair any code changes to get it to compile (note: we use a .callEvent()
-utility method on the Event class for nearly all Custom Events to reduce diff.)
-
-If we make a breaking change, and you wish to pull the patch to update it after that, it's your job to fix the changes!
-
-So in summary, we love to share! Use anything we wrote in this repo how ever you please, but support it yourself :)
+#### Creating a patch
+Patches are effectively just commits in either `LumiPaper-API` or `LumiPaper-Server`. 
+To create one, just add a commit to either repo and run `./lumi rb`, and a 
+patch will be placed in the patches folder. Modifying commits will also modify its 
+corresponding patch file.
 
 
-## OS Support / Scripts##
-We only directly support Ubuntu 14.04 for the shell scripts. It may work elsewhere... but no promises.
+#### Building
 
-Many scripts will try to push to our repo's, please change that if you fork :)
-
-### scripts/importmcdev ###
-Imports specific files from mc-dev that CB/Spigot doesn't use but we need.
-
-### scripts/updatespigot ###
-updates the Bukkit/CraftBukkit/Spigot baseline when passed --update, otherwise regenerates the baseline with changes
-to mcdev from importmcdev
-
-Run `scripts/applypatches` then `scripts/rebuildpatches` immediately after
-
-### scripts/generatesources ###
-Generates an mc-dev folder that can be added to IDE for the other mc-dev files located in minecraft-server.jar
-
-### scripts/rebuildpatches ###
-Rebuilds patch state from the EmpireCraft-* repo's current state. Automatically handles patch deletion and renaming
-for you unlike Spigots version of these scripts.
-
-### scripts/applypatches ###
-Takes current patches/{bukkit,craftbukkit} and applys them on latest spigot upstream
+Use the command `./lumi build` to build the api and server. Compiled jars
+will be placed under `LumiPaper-API/target` and `LumiPaper-Server/target`.

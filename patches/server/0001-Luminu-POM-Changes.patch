@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <KennyTV@users.noreply.github.com>
+Date: Fri, 14 Dec 2018 21:53:58 -0800
+Subject: [PATCH] Luminu POM Changes
+
+
+diff --git a/pom.xml b/pom.xml
+index 907807ee507a4563ad98040e9142ecf9440b5349..0802f703298491c0ae386b76547a9b1d8c6fa5e7 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -4,7 +4,7 @@
+     <artifactId>paper</artifactId>
+     <packaging>jar</packaging>
+     <version>1.15.2-R0.1-SNAPSHOT</version>
+-    <name>Paper</name>
++    <name>LumiPaper-Server</name>
+     <url>https://papermc.io</url>
+ 
+     <properties>
+@@ -21,7 +21,7 @@
+     </properties>
+ 
+     <parent>
+-        <groupId>com.destroystokyo.paper</groupId>
++        <groupId>net.luminu.paper</groupId>
+         <artifactId>paper-parent</artifactId>
+         <version>dev-SNAPSHOT</version>
+         <relativePath>../pom.xml</relativePath>
+@@ -29,7 +29,7 @@
+ 
+     <dependencies>
+         <dependency>
+-            <groupId>com.destroystokyo.paper</groupId>
++            <groupId>net.luminu.paper</groupId>
+             <artifactId>paper-api</artifactId>
+             <version>${project.version}</version>
+             <scope>compile</scope>
+@@ -368,4 +368,17 @@
+             </build>
+         </profile>
+     </profiles>
++
++    <!-- Luminu start - distribution management -->
++    <distributionManagement>
++        <snapshotRepository>
++            <id>luminu</id>
++            <url>http://repo.luminu.net/repository/luminu-snapshots/</url>
++        </snapshotRepository>
++        <repository>
++            <id>luminu</id>
++            <url>http://repo.luminu.net/repository/luminu-releases/</url>
++        </repository>
++    </distributionManagement>
++    <!-- Luminu end -->
+ </project>
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+index 674096cab190d62622f9947853b056f57d43a2a5..676bab4825525fa7266f5256afe59de39014551b 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
+@@ -11,7 +11,7 @@ public final class Versioning {
+     public static String getBukkitVersion() {
+         String result = "Unknown-Version";
+ 
+-        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/com.destroystokyo.paper/paper-api/pom.properties");
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/net.luminu.paper/paper-api/pom.properties");
+         Properties properties = new Properties();
+ 
+         if (stream != null) {

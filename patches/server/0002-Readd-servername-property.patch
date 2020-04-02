@@ -1,0 +1,44 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <28825609+KennyTV@users.noreply.github.com>
+Date: Wed, 31 Jul 2019 13:23:20 +0200
+Subject: [PATCH] Readd servername property
+
+
+diff --git a/src/main/java/net/minecraft/server/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
+index 0c3ec8357039035e63fe9e97ea5ceb952330ef6e..b1cadcc2f019334f693f48aa3f3f117ae4ed1980 100644
+--- a/src/main/java/net/minecraft/server/DedicatedServerProperties.java
++++ b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
+@@ -53,6 +53,7 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
+     public final int maxWorldSize;
+     public final PropertyManager<DedicatedServerProperties>.EditableProperty<Integer> playerIdleTimeout;
+     public final PropertyManager<DedicatedServerProperties>.EditableProperty<Boolean> whiteList;
++    public String serverName; // Luminu - readd (configurable) servername
+ 
+     public final String rconIp; // Paper - Add rcon ip
+ 
+@@ -106,6 +107,7 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
+         final String rconIp = this.getSettingIfExists("rcon.ip");
+         this.rconIp = rconIp == null ? this.serverIp : rconIp;
+         // Paper end
++        this.serverName = this.getString("server-name", "Unknown server"); // Luminu - readd servername
+     }
+ 
+     // CraftBukkit start
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index b7dfda2650fb2d75e45230b26a1193e83f127b62..588d20b3720c5f9fd9bd3ed57e0ebd86e4a1062f 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -478,6 +478,13 @@ public final class CraftServer implements Server {
+         return serverName;
+     }
+ 
++    // Luminu start - readd servername
++    @Override
++    public String getServerName() {
++        return getProperties().serverName;
++    }
++    // Luminu end
++
+     @Override
+     public String getVersion() {
+         return serverVersion + " (MC: " + console.getVersion() + ")";

@@ -1,0 +1,56 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: KennyTV <kennytv@t-online.de>
+Date: Sun, 29 Mar 2020 10:37:23 +0200
+Subject: [PATCH] Option to override commands
+
+
+diff --git a/src/main/java/org/bukkit/command/SimpleCommandMap.java b/src/main/java/org/bukkit/command/SimpleCommandMap.java
+index 460fda05a62b12db2edcfb7ea8b2a5dd8e4b110d..3be4d5cd5106b11476baecacb750b741667fe80f 100644
+--- a/src/main/java/org/bukkit/command/SimpleCommandMap.java
++++ b/src/main/java/org/bukkit/command/SimpleCommandMap.java
+@@ -65,19 +65,25 @@ public class SimpleCommandMap implements CommandMap {
+         return register(command.getName(), fallbackPrefix, command);
+     }
+ 
++    // Luminu start - option to override commands
+     /**
+      * {@inheritDoc}
+      */
+     @Override
+     public boolean register(@NotNull String label, @NotNull String fallbackPrefix, @NotNull Command command) {
++        return register(label, fallbackPrefix, command, false);
++    }
++
++    public boolean register(@NotNull String label, @NotNull String fallbackPrefix, @NotNull Command command, boolean override) { // Luminu - option to override commands
++        // Luminu end
+         command.timings = co.aikar.timings.TimingsManager.getCommandTiming(fallbackPrefix, command); // Paper
+         label = label.toLowerCase(java.util.Locale.ENGLISH).trim();
+         fallbackPrefix = fallbackPrefix.toLowerCase(java.util.Locale.ENGLISH).trim();
+-        boolean registered = register(label, command, false, fallbackPrefix);
++        boolean registered = register(label, command, false, fallbackPrefix, override); // Luminu - option to override commands
+ 
+         Iterator<String> iterator = command.getAliases().iterator();
+         while (iterator.hasNext()) {
+-            if (!register(iterator.next(), command, true, fallbackPrefix)) {
++            if (!register(iterator.next(), command, true, fallbackPrefix, override)) { // Luminu - option to override commands
+                 iterator.remove();
+             }
+         }
+@@ -104,7 +110,7 @@ public class SimpleCommandMap implements CommandMap {
+      *     unique address
+      * @return true if command was registered, false otherwise.
+      */
+-    private synchronized boolean register(@NotNull String label, @NotNull Command command, boolean isAlias, @NotNull String fallbackPrefix) {
++    private synchronized boolean register(@NotNull String label, @NotNull Command command, boolean isAlias, @NotNull String fallbackPrefix, boolean override) { // Luminu - option to override commands
+         knownCommands.put(fallbackPrefix + ":" + label, command);
+         if ((command instanceof BukkitCommand || isAlias) && knownCommands.containsKey(label)) {
+             // Request is for an alias/fallback command and it conflicts with
+@@ -117,7 +123,7 @@ public class SimpleCommandMap implements CommandMap {
+ 
+         // If the command exists but is an alias we overwrite it, otherwise we return
+         Command conflict = knownCommands.get(label);
+-        if (conflict != null && conflict.getLabel().equals(label)) {
++        if (!override && conflict != null && conflict.getLabel().equals(label)) { // Luminu - option to override commands
+             return false;
+         }
+ 

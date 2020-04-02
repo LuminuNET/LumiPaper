@@ -1,4 +1,36 @@
+# we use maven!
+build.xml
+
+# maven
+target/
+dependency-reduced-pom.xml
+
+# vim
+.*.sw[a-p]
+
+# various other potential build files
+build/
+bin/
+dist/
+manifest.mf
+
+# intellij
+*.iml
+*.ipr
+*.iws
+.idea/
+out/
+
+# Linux temp files
+*~
+
+# other stuff
+run/
+
 Spigot
-EmpireCraft-Server
-EmpireCraft-API
+LumiPaper-Server
+LumiPaper-API
+Paper
 mc-dev
+.idea
+testserver
