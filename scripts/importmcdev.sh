@@ -8,13 +8,13 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 . $(dirname $SOURCE)/init.sh
 
-workdir=$basedir/Paper/work
-minecraftversion=$(cat $basedir/Paper/work/BuildData/info.json | grep minecraftVersion | cut -d '"' -f 4)
+workdir="$basedir"/Paper/work
+minecraftversion=$(cat "$basedir"/Paper/work/BuildData/info.json | grep minecraftVersion | cut -d '"' -f 4)
 decompiledir=$workdir/Minecraft/$minecraftversion/spigot
 
 nms="net/minecraft/server"
 export MODLOG=""
-cd $basedir
+cd "$basedir"
 
 function containsElement {
     local e
@@ -47,7 +47,7 @@ function import {
 (
     cd Paper/Paper-Server/
     lastlog=$(git log -1 --oneline)
-    if [[ "$lastlog" = *"EMC-Extra mc-dev Imports"* ]]; then
+    if [[ "$lastlog" = *"Paper mc-dev Imports"* ]]; then
         git reset --hard HEAD^
     fi
 )
@@ -84,5 +84,5 @@ done
     rm -rf nms-patches
     git add src -A
     echo -e "Paper-Extra mc-dev Imports\n\n$MODLOG" | git commit src -F -
-	exit 0
+	  exit 0
 )
