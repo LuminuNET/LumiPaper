@@ -46,7 +46,7 @@ index b1cadcc2f019334f693f48aa3f3f117ae4ed1980..5b773ed7b8f8a73ea4cee0d52812dedd
  
      // CraftBukkit start
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index c9deaffc4a317c8ec75d9e6ef5889ab909e2fbe8..79c0e3791c751e8538954b35be045a36d1998930 100644
+index 936434110c70d4e1a12b52314afd0b2456d96ecd..e630810f609d88ed7ee664fd4888ef054404dd12 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -746,6 +746,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
@@ -66,7 +66,7 @@ index c9deaffc4a317c8ec75d9e6ef5889ab909e2fbe8..79c0e3791c751e8538954b35be045a36
          com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
      }
  
-@@ -959,13 +962,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -960,13 +963,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
                  crashreport = this.b(new CrashReport("Exception in server tick loop", throwable));
              }
  

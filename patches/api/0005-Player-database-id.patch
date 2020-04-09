@@ -35,10 +35,10 @@ index d21bb3e3134d2a65ec7dabcec14c011c518bcf28..6e6559ca2c9c7e189606f117c1cbc42e
  
      /**
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index e926c93dac3fbc5e76e7968f71374aca339a64b0..a6415070851464fd42986205dfa64d4dace7491f 100644
+index bd0d574191150332014cc32cdf2c99128835ffb7..6f9561acb0f6b179398a1632ccc02403e65d201c 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -626,6 +626,23 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -625,6 +625,23 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      public void sendActionBar(char alternateChar, @NotNull String message);
  
      // Luminu start
