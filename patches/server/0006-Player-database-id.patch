@@ -5,7 +5,7 @@ Subject: [PATCH] Player database id
 
 
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index f37be4b76bd8d2d2c99c3f0f001f3ec496b220e7..8ced856191face07b05a61851ca4484e9641be39 100644
+index 6d6fbf2f50159846267199f74575bedeb54c1473..7c1dee58caf46014b9057207c0c449af228bfd26 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
 @@ -72,6 +72,7 @@ public abstract class PlayerList {
@@ -16,7 +16,7 @@ index f37be4b76bd8d2d2c99c3f0f001f3ec496b220e7..8ced856191face07b05a61851ca4484e
      @Nullable String collideRuleTeamName; // Paper - Team name used for collideRule
  
      public PlayerList(MinecraftServer minecraftserver, int i) {
-@@ -184,6 +185,7 @@ public abstract class PlayerList {
+@@ -185,6 +186,7 @@ public abstract class PlayerList {
          playerconnection.a(entityplayer.locX(), entityplayer.locY(), entityplayer.locZ(), entityplayer.yaw, entityplayer.pitch);
          this.players.add(entityplayer);
          this.playersByName.put(entityplayer.getName().toLowerCase(java.util.Locale.ROOT), entityplayer); // Spigot
@@ -24,7 +24,7 @@ index f37be4b76bd8d2d2c99c3f0f001f3ec496b220e7..8ced856191face07b05a61851ca4484e
          this.j.put(entityplayer.getUniqueID(), entityplayer);
          // this.sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, new EntityPlayer[]{entityplayer})); // CraftBukkit - replaced with loop below
  
-@@ -448,6 +450,7 @@ public abstract class PlayerList {
+@@ -449,6 +451,7 @@ public abstract class PlayerList {
          entityplayer.getAdvancementData().a();
          this.players.remove(entityplayer);
          this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
@@ -32,7 +32,7 @@ index f37be4b76bd8d2d2c99c3f0f001f3ec496b220e7..8ced856191face07b05a61851ca4484e
          this.server.getBossBattleCustomData().b(entityplayer);
          UUID uuid = entityplayer.getUniqueID();
          EntityPlayer entityplayer1 = (EntityPlayer) this.j.get(uuid);
-@@ -603,6 +606,7 @@ public abstract class PlayerList {
+@@ -604,6 +607,7 @@ public abstract class PlayerList {
          entityplayer.stopRiding(); // CraftBukkit
          this.players.remove(entityplayer);
          this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
@@ -40,7 +40,7 @@ index f37be4b76bd8d2d2c99c3f0f001f3ec496b220e7..8ced856191face07b05a61851ca4484e
          entityplayer.getWorldServer().removePlayer(entityplayer);
          BlockPosition blockposition = entityplayer.getBed();
          boolean flag1 = entityplayer.isRespawnForced();
-@@ -717,6 +721,7 @@ public abstract class PlayerList {
+@@ -718,6 +722,7 @@ public abstract class PlayerList {
              worldserver.addPlayerRespawn(entityplayer1);
              this.players.add(entityplayer1);
              this.playersByName.put(entityplayer1.getName().toLowerCase(java.util.Locale.ROOT), entityplayer1); // Spigot
@@ -49,7 +49,7 @@ index f37be4b76bd8d2d2c99c3f0f001f3ec496b220e7..8ced856191face07b05a61851ca4484e
          }
          // entityplayer1.syncInventory();
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 68d852621d580c44a5e6c13f93daf4a9b0065dc0..93f36021954266cd3667e5b82dce1a37e508f939 100644
+index e6f2d410f83b43bbc2b32d9cf460e62ab4f21566..881fc90b7b68bf46987351c0dd84ab60f863b1fe 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -490,6 +490,12 @@ public final class CraftServer implements Server {
