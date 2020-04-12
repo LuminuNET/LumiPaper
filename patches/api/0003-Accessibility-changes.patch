@@ -18,7 +18,7 @@ index 793b661b6d2d05de3d7f4fc26a4c018a2af58e62..6ed39628d871cc71768ff865d6c0c7db
          player = who;
  
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 8355f9f0eb1b554bf6cfd3883afd2bdd2bf8c357..4a6b985ea88823a9b386cdf506ebd34fe724ec3e 100644
+index 4931bc86d44cd697d458d6e365c3b8030ea8285d..a01fb7c2a346a0dfa04758b7b093f2a6c638823c 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 @@ -588,12 +588,16 @@ public final class SimplePluginManager implements PluginManager {
@@ -30,7 +30,7 @@ index 8355f9f0eb1b554bf6cfd3883afd2bdd2bf8c357..4a6b985ea88823a9b386cdf506ebd34f
 +        /*
          if (event.isAsynchronous() && server.isPrimaryThread()) {
              throw new IllegalStateException(event.getEventName() + " may only be triggered asynchronously.");
-         } else if (!event.isAsynchronous() && !server.isPrimaryThread()) {
+         } else if (!event.isAsynchronous() && !server.isPrimaryThread() && !server.isStopping() ) {
              throw new IllegalStateException(event.getEventName() + " may only be triggered synchronously.");
          }
 +        */
