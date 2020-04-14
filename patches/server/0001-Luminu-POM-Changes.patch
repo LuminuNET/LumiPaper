@@ -5,7 +5,7 @@ Subject: [PATCH] Luminu POM Changes
 
 
 diff --git a/pom.xml b/pom.xml
-index 907807ee507a4563ad98040e9142ecf9440b5349..0802f703298491c0ae386b76547a9b1d8c6fa5e7 100644
+index 55679af926485eca6bb0b9ed368a4c91c8a7e37e..57058b2621286fdce86a30894acae9affa2b017e 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -4,7 +4,7 @@
@@ -53,6 +53,19 @@ index 907807ee507a4563ad98040e9142ecf9440b5349..0802f703298491c0ae386b76547a9b1d
 +    </distributionManagement>
 +    <!-- Luminu end -->
  </project>
+diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+index 49a38c6608b652ff48ef4eaca0dd3ccb1ba570e3..5398ee7c133f52384d0a9e0c5332591cbbbdf399 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+@@ -25,7 +25,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+     @Override
+     public String getVersionMessage(@Nonnull String serverVersion) {
+         String[] parts = serverVersion.substring("git-Paper-".length()).split("[-\\s]");
+-        String updateMessage = getUpdateStatusMessage("PaperMC/Paper", GITHUB_BRANCH_NAME, parts[0]);
++        String updateMessage = getUpdateStatusMessage("LuminuNET/LumiPaper", GITHUB_BRANCH_NAME, parts[0]);
+         String history = getHistory();
+ 
+         return history != null ? history + "\n" + updateMessage : updateMessage;
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 index 674096cab190d62622f9947853b056f57d43a2a5..676bab4825525fa7266f5256afe59de39014551b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
