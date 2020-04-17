@@ -5,7 +5,7 @@ Subject: [PATCH] Opt to disable data and log saving
 
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 1ef7890da599d13e784861035e7891efcc4cd504..14917bc07d760d7db6c595c4e1c97ff9e71824d5 100644
+index e62ca0543f1819259ad8720ad792fed3ef134d6a..f7337f17f01273d69866fa1073ac77f487d00786 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
 @@ -155,6 +155,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -46,10 +46,10 @@ index b1cadcc2f019334f693f48aa3f3f117ae4ed1980..5b773ed7b8f8a73ea4cee0d52812dedd
  
      // CraftBukkit start
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index a9b5337512c5c7d71be68826cafb6c3c5528bd3e..d06f84c26039221cebca4fa1d6cba1c71a7f5daf 100644
+index a386c1ab480806003938e330ca78a8283fab37f1..bd5b73a05d3462bb432e7236b2fc825c84926964 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -751,6 +751,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -757,6 +757,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              this.getServerConnection().b();
          }
  
@@ -58,15 +58,15 @@ index a9b5337512c5c7d71be68826cafb6c3c5528bd3e..d06f84c26039221cebca4fa1d6cba1c7
          if (this.playerList != null) {
              MinecraftServer.LOGGER.info("Saving players");
              this.playerList.savePlayers();
-@@ -794,6 +796,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -800,6 +802,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              this.getUserCache().c(false); // Paper
          }
          // Spigot end
 +        } // Luminu end
+         // Paper start - move final shutdown items here
+         LOGGER.info("Flushing Chunk IO");
          com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
-         System.exit(0); // Paper
-     }
-@@ -966,13 +969,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -990,13 +993,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
                  crashreport = this.b(new CrashReport("Exception in server tick loop", throwable));
              }
  

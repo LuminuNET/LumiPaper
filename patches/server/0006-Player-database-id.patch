@@ -5,7 +5,7 @@ Subject: [PATCH] Player database id
 
 
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index 6d6fbf2f50159846267199f74575bedeb54c1473..7c1dee58caf46014b9057207c0c449af228bfd26 100644
+index 0e1703c9dac8e122074ac6369a1a88240bbc3e70..f40a7383c64fabf3533ccab125a207086e58bb87 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
 @@ -72,6 +72,7 @@ public abstract class PlayerList {
@@ -49,7 +49,7 @@ index 6d6fbf2f50159846267199f74575bedeb54c1473..7c1dee58caf46014b9057207c0c449af
          }
          // entityplayer1.syncInventory();
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e6f2d410f83b43bbc2b32d9cf460e62ab4f21566..881fc90b7b68bf46987351c0dd84ab60f863b1fe 100644
+index 5d38ac481f34ebc11931853c9c2baf313c9c305f..1b242f14506c1489e6853a447aeac625590688e7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -490,6 +490,12 @@ public final class CraftServer implements Server {
@@ -66,10 +66,10 @@ index e6f2d410f83b43bbc2b32d9cf460e62ab4f21566..881fc90b7b68bf46987351c0dd84ab60
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 569d1a535f3ac05849af907d78484a81298193db..ce1dd61e6cde0977fc8152666f791411d60b5fed 100644
+index 248eb50b078a7e2c9b3f44e39d072bea88c63356..12f20dc996b3199646cd3ea13d9d72253ce67c89 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -1886,6 +1886,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1890,6 +1890,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      // Luminu start
      private java.util.Locale locale;
