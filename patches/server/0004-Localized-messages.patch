@@ -27,7 +27,7 @@ index 2ee19757a9399aaaf3608453ffcb35f953b076ed..5d38ac481f34ebc11931853c9c2baf31
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index b76379a17ca4c1ad009acfd4407d103ecb476a4e..248eb50b078a7e2c9b3f44e39d072bea88c63356 100644
+index b76379a17ca4c1ad009acfd4407d103ecb476a4e..95e7d1278fee0e77cc6416fbed5f103ebc76be6d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -1880,6 +1880,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -43,7 +43,7 @@ index b76379a17ca4c1ad009acfd4407d103ecb476a4e..248eb50b078a7e2c9b3f44e39d072bea
      }
  
 +    // Luminu start
-+    private java.util.Locale locale;
++    private java.util.Locale locale = java.util.Locale.GERMAN;
 +
 +    @Override
 +    public java.util.Locale getSetLocale() {

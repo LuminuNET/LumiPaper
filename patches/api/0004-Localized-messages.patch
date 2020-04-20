@@ -6,13 +6,14 @@ Subject: [PATCH] Localized messages
 
 diff --git a/src/main/java/net/luminu/paper/locale/PaperLocaleProvider.java b/src/main/java/net/luminu/paper/locale/PaperLocaleProvider.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..17877c8f04d7071be51762691c7e5014b8769c71
+index 0000000000000000000000000000000000000000..3d165f7339152f7fd65b3a0beb587a28d969be63
 --- /dev/null
 +++ b/src/main/java/net/luminu/paper/locale/PaperLocaleProvider.java
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,46 @@
 +package net.luminu.paper.locale;
 +
 +import org.bukkit.command.CommandSender;
++import org.jetbrains.annotations.NotNull;
 +import org.jetbrains.annotations.Nullable;
 +
 +import java.util.Locale;
@@ -32,7 +33,8 @@ index 0000000000000000000000000000000000000000..17877c8f04d7071be51762691c7e5014
 +     * @param key    config key
 +     * @return message from config if present, else null
 +     */
-+    String getStringMessage(Locale locale, String key);
++    @Nullable
++    String getStringMessage(@NotNull Locale locale, @NotNull String key);
 +
 +    /**
 +     * Returns the message for the given config key from the config.
@@ -42,7 +44,8 @@ index 0000000000000000000000000000000000000000..17877c8f04d7071be51762691c7e5014
 +     * @param replacements replacements
 +     * @return message from config if present, else null
 +     */
-+    String getStringMessage(Locale locale, String key, String... replacements);
++    @Nullable
++    String getStringMessage(@NotNull Locale locale, @NotNull String key, @Nullable String... replacements);
 +
 +    /**
 +     * Sends a localized message to the sender.
@@ -51,7 +54,7 @@ index 0000000000000000000000000000000000000000..17877c8f04d7071be51762691c7e5014
 +     * @param key          message key
 +     * @param replacements replacementsS
 +     */
-+    void sendMessage(CommandSender sender, String key, @Nullable String... replacements);
++    void sendMessage(@NotNull CommandSender sender, @NotNull String key, @Nullable String... replacements);
 +}
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
 index 0f6e966cbafd3aed61e7555ac1db5ee98756820e..58f73bee252a1ad07de7a3567bf028c4529eb9fb 100644
@@ -156,10 +159,10 @@ index 14a810445e2d94aacba179a6448342319569928d..c77a2758c19fbdb33fb31c8142fe17b7
      /**
       * Sends the component to all online players.
 diff --git a/src/main/java/org/bukkit/command/CommandSender.java b/src/main/java/org/bukkit/command/CommandSender.java
-index d3b3a8bf94dac370ea254875e4d4a30894a70c67..03e89dd9dcf83737e3d35db5f1141a1c2bee727c 100644
+index d3b3a8bf94dac370ea254875e4d4a30894a70c67..88048354af5795277c18d76724686e664f922634 100644
 --- a/src/main/java/org/bukkit/command/CommandSender.java
 +++ b/src/main/java/org/bukkit/command/CommandSender.java
-@@ -13,6 +13,55 @@ public interface CommandSender extends Permissible {
+@@ -13,6 +13,58 @@ public interface CommandSender extends Permissible {
       */
      public void sendMessage(@NotNull String message);
  
@@ -169,6 +172,7 @@ index d3b3a8bf94dac370ea254875e4d4a30894a70c67..03e89dd9dcf83737e3d35db5f1141a1c
 +     *
 +     * @return the locale as set in the LocaleProvider
 +     */
++    @NotNull
 +    public default java.util.Locale getSetLocale() {
 +        return java.util.Locale.GERMAN;
 +    }
@@ -197,6 +201,7 @@ index d3b3a8bf94dac370ea254875e4d4a30894a70c67..03e89dd9dcf83737e3d35db5f1141a1c
 +     *
 +     * @param key message key
 +     */
++    @org.jetbrains.annotations.Nullable
 +    public default String getLocalizedString(@NotNull String key) {
 +        return org.bukkit.Bukkit.getLocaleProvider().getStringMessage(getSetLocale(), key);
 +    }
@@ -207,6 +212,7 @@ index d3b3a8bf94dac370ea254875e4d4a30894a70c67..03e89dd9dcf83737e3d35db5f1141a1c
 +     * @param key message key
 +     * @param replacements replacements
 +     */
++    @org.jetbrains.annotations.Nullable
 +    public default String getLocalizedString(@NotNull String key, @org.jetbrains.annotations.Nullable String... replacements) {
 +        return org.bukkit.Bukkit.getLocaleProvider().getStringMessage(getSetLocale(), key, replacements);
 +    }
@@ -216,7 +222,7 @@ index d3b3a8bf94dac370ea254875e4d4a30894a70c67..03e89dd9dcf83737e3d35db5f1141a1c
       * Sends this sender multiple messages
       *
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 787bb144b5918ef1e46d69cb72b84128d2b678f3..a57d1b2135f317724139f62578ae104078f2a79f 100644
+index 787bb144b5918ef1e46d69cb72b84128d2b678f3..fe2208f506c7dda719e62ff269409c333648f073 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -625,6 +625,31 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -320,7 +326,7 @@ index 787bb144b5918ef1e46d69cb72b84128d2b678f3..a57d1b2135f317724139f62578ae1040
 +     *
 +     * @param locale locale to set
 +     */
-+    public void setLocale(java.util.Locale locale);
++    public void setLocale(@NotNull java.util.Locale locale);
 +    // Luminu end
 +
      // Paper start
