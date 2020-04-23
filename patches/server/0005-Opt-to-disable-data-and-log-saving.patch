@@ -46,10 +46,10 @@ index b1cadcc2f019334f693f48aa3f3f117ae4ed1980..5b773ed7b8f8a73ea4cee0d52812dedd
  
      // CraftBukkit start
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index a386c1ab480806003938e330ca78a8283fab37f1..bd5b73a05d3462bb432e7236b2fc825c84926964 100644
+index 1086d1caacf73292ec1d373dbd2632b8f58355cf..25d9394d32b3914ecdef1e1c99c241ee1e15b6fa 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -757,6 +757,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -745,6 +745,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              this.getServerConnection().b();
          }
  
@@ -58,7 +58,7 @@ index a386c1ab480806003938e330ca78a8283fab37f1..bd5b73a05d3462bb432e7236b2fc825c
          if (this.playerList != null) {
              MinecraftServer.LOGGER.info("Saving players");
              this.playerList.savePlayers();
-@@ -800,6 +802,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -788,6 +790,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              this.getUserCache().c(false); // Paper
          }
          // Spigot end
@@ -66,7 +66,7 @@ index a386c1ab480806003938e330ca78a8283fab37f1..bd5b73a05d3462bb432e7236b2fc825c
          // Paper start - move final shutdown items here
          LOGGER.info("Flushing Chunk IO");
          com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
-@@ -990,13 +993,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -977,13 +980,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
                  crashreport = this.b(new CrashReport("Exception in server tick loop", throwable));
              }
  
