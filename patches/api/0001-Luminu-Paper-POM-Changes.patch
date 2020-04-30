@@ -5,7 +5,7 @@ Subject: [PATCH] Luminu Paper POM Changes
 
 
 diff --git a/pom.xml b/pom.xml
-index a71015f40acb309916f1b6ae1822d711b28dc3a9..6860acf33665794ec2f8e095876a0651b77b5c8e 100644
+index 0629e1aa983ed75f434671b91268594fcf7b488a..559cc228e0fdee699494e44bd11a69ced290a1fc 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -3,17 +3,17 @@
@@ -29,7 +29,7 @@ index a71015f40acb309916f1b6ae1822d711b28dc3a9..6860acf33665794ec2f8e095876a0651
      <url>https://github.com/PaperMC/Paper</url>
      <description>An enhanced plugin API for Minecraft servers.</description>
  
-@@ -253,4 +253,17 @@
+@@ -277,4 +277,17 @@
              </build>
          </profile>
      </profiles>

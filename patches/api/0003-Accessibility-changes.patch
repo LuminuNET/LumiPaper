@@ -4,19 +4,6 @@ Date: Sat, 3 Aug 2019 21:14:26 +0200
 Subject: [PATCH] Accessibility changes
 
 
-diff --git a/src/main/java/org/bukkit/event/player/PlayerEvent.java b/src/main/java/org/bukkit/event/player/PlayerEvent.java
-index 793b661b6d2d05de3d7f4fc26a4c018a2af58e62..6ed39628d871cc71768ff865d6c0c7db0c558465 100644
---- a/src/main/java/org/bukkit/event/player/PlayerEvent.java
-+++ b/src/main/java/org/bukkit/event/player/PlayerEvent.java
-@@ -14,7 +14,7 @@ public abstract class PlayerEvent extends Event {
-         player = who;
-     }
- 
--    PlayerEvent(@NotNull final Player who, boolean async) {
-+    public PlayerEvent(@NotNull final Player who, boolean async) { // Luminu - make constructor public
-         super(async);
-         player = who;
- 
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 index 4931bc86d44cd697d458d6e365c3b8030ea8285d..a01fb7c2a346a0dfa04758b7b093f2a6c638823c 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
