@@ -57,7 +57,9 @@ if [ "$(cat $basedir/current-paper)" != "$tag" ]; then
 fi
 
 tag Paper-API $forcetag
+tag Paper-MojangAPI $forcetag
 tag Paper-Server $forcetag
 
 pushRepo Paper-API $PAPER_API_REPO $tag
+pushRepo Paper-MojangAPI $PAPER_MOJANGAPI_REPO $tag
 pushRepo Paper-Server $PAPER_SERVER_REPO $tag

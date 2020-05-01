@@ -103,7 +103,7 @@ case "$1" in
     ;;
     "setup")
         if [[ -f ~/.bashrc ]] ; then
-            NAME="ec"
+            NAME="lumi"
             if [[ ! -z "${2+x}" ]] ; then
                 NAME="$2"
             fi
@@ -139,9 +139,9 @@ case "$1" in
         echo "                 | this default, such as:"
         echo "                 |     . ./lumi setup example"
         echo "                 | Which will allow you to run 'example' instead."
-		echo ""
-		echo "  * u, update    | Merge upstream and patch again (always follow this up with upush if successfull)."
-		echo "  * upush        | Rebuild patches, commit and push upstream changes."
+		    echo ""
+		    echo "  * u, update    | Merge upstream and patch again (always follow this up with upush if successfull)."
+		    echo "  * upush        | Rebuild patches, commit and push upstream changes."
     ;;
 esac
 

@@ -34,8 +34,16 @@ function applyPatch {
     target=$2
     branch=$3
     patch_folder=$4
+    create_sources_repo=${5:-0}
 
     cd "$basedir/$what"
+    # Hack to create sources repo
+    if [ $create_sources_repo == "1" ]; then
+        echo "Initializing sources repo"
+        git init >/dev/null 2>&1
+        git add . >/dev/null 2>&1
+        git commit -am "Add sources" >/dev/null 2>&1
+    fi
     git fetch --all
     git branch -f upstream "$branch" >/dev/null
 
@@ -83,6 +91,7 @@ function enableCommitSigningIfNeeded {
     ./scripts/importmcdev.sh "$basedir" || exit 1
 (
     (applyPatch Paper/Paper-API ${FORK_NAME}-API HEAD api $API_REPO &&
+    applyPatch Paper/Paper-MojangAPI ${FORK_NAME}-MojangAPI HEAD mojangapi $MOJANGAPI_REPO 1 &&
     applyPatch Paper/Paper-Server ${FORK_NAME}-Server HEAD server $SERVER_REPO) || exit 1
     enableCommitSigningIfNeeded
 ) || (
