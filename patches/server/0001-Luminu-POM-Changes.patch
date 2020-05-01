@@ -5,7 +5,7 @@ Subject: [PATCH] Luminu POM Changes
 
 
 diff --git a/pom.xml b/pom.xml
-index 55679af926485eca6bb0b9ed368a4c91c8a7e37e..57058b2621286fdce86a30894acae9affa2b017e 100644
+index bc8438ae1ae939be4d2257d37df9a843a13ac301..e37ea27ec256f5e8bc61f6cb90d84bb287eb2f05 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -4,7 +4,7 @@
@@ -17,7 +17,7 @@ index 55679af926485eca6bb0b9ed368a4c91c8a7e37e..57058b2621286fdce86a30894acae9af
      <url>https://papermc.io</url>
  
      <properties>
-@@ -21,7 +21,7 @@
+@@ -18,7 +18,7 @@
      </properties>
  
      <parent>
@@ -26,7 +26,7 @@ index 55679af926485eca6bb0b9ed368a4c91c8a7e37e..57058b2621286fdce86a30894acae9af
          <artifactId>paper-parent</artifactId>
          <version>dev-SNAPSHOT</version>
          <relativePath>../pom.xml</relativePath>
-@@ -29,7 +29,7 @@
+@@ -26,7 +26,7 @@
  
      <dependencies>
          <dependency>
@@ -35,7 +35,7 @@ index 55679af926485eca6bb0b9ed368a4c91c8a7e37e..57058b2621286fdce86a30894acae9af
              <artifactId>paper-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
-@@ -368,4 +368,17 @@
+@@ -384,4 +384,17 @@
              </build>
          </profile>
      </profiles>

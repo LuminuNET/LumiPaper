@@ -5,10 +5,10 @@ Subject: [PATCH] Localized messages
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 2ee19757a9399aaaf3608453ffcb35f953b076ed..5d38ac481f34ebc11931853c9c2baf313c9c305f 100644
+index 7f1b3a0de074e05502cf04ec5582a7e5a2ab871b..b4e02938598f125936c5cae83e8238cefce8c370 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -479,10 +479,17 @@ public final class CraftServer implements Server {
+@@ -480,10 +480,17 @@ public final class CraftServer implements Server {
      }
  
      // Luminu start - readd servername
@@ -27,7 +27,7 @@ index 2ee19757a9399aaaf3608453ffcb35f953b076ed..5d38ac481f34ebc11931853c9c2baf31
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index b76379a17ca4c1ad009acfd4407d103ecb476a4e..95e7d1278fee0e77cc6416fbed5f103ebc76be6d 100644
+index 3515b7268262cece5582549fa74c0fff1051381d..c6c6b7832d39804cd17a3d10a0a6cc637fdaa0f7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -1880,6 +1880,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

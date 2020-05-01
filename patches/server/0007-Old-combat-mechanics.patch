@@ -18,10 +18,10 @@ index 4571cdf0217d840a32427efeeb5d8b993bdcf326..384a949208db5bf4cf1cc7bdf0cedd86
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/EntityHuman.java b/src/main/java/net/minecraft/server/EntityHuman.java
-index 2e186134eab5a12bb27fb368406698c462e884b8..c387ebd6532aaad7cff84b30e224c9a34d0c95ef 100644
+index 7df24be46e4471ae0ddad5cded5eef4937fd37a3..473efe57a6524cc23bc477416b4ccc35e5f1148e 100644
 --- a/src/main/java/net/minecraft/server/EntityHuman.java
 +++ b/src/main/java/net/minecraft/server/EntityHuman.java
-@@ -1118,7 +1118,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1114,7 +1114,7 @@ public abstract class EntityHuman extends EntityLiving {
  
                      if (flag5) {
                          if (i > 0) {
@@ -30,7 +30,7 @@ index 2e186134eab5a12bb27fb368406698c462e884b8..c387ebd6532aaad7cff84b30e224c9a3
                                  ((EntityLiving) entity).a(this, (float) i * 0.5F, (double) MathHelper.sin(this.yaw * 0.017453292F), (double) (-MathHelper.cos(this.yaw * 0.017453292F)));
                              } else {
                                  entity.h((double) (-MathHelper.sin(this.yaw * 0.017453292F) * (float) i * 0.5F), 0.1D, (double) (MathHelper.cos(this.yaw * 0.017453292F) * (float) i * 0.5F));
-@@ -1132,7 +1132,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1128,7 +1128,7 @@ public abstract class EntityHuman extends EntityLiving {
                              // Paper end
                          }
  
@@ -40,7 +40,7 @@ index 2e186134eab5a12bb27fb368406698c462e884b8..c387ebd6532aaad7cff84b30e224c9a3
                              List<EntityLiving> list = this.world.a(EntityLiving.class, entity.getBoundingBox().grow(1.0D, 0.25D, 1.0D));
                              Iterator iterator = list.iterator();
 diff --git a/src/main/java/net/minecraft/server/EntityLiving.java b/src/main/java/net/minecraft/server/EntityLiving.java
-index dfb9421a15ba1ca7b86146cb795a3ac5e9b8e15e..866a80654a11b6bd817709566adffdc908df631b 100644
+index 3fc2360a103a5399f2878eccb0c13eb6e41e824d..f1d6ba766d0343f425cbc29c2873f67f0192fca6 100644
 --- a/src/main/java/net/minecraft/server/EntityLiving.java
 +++ b/src/main/java/net/minecraft/server/EntityLiving.java
 @@ -1451,7 +1451,7 @@ public abstract class EntityLiving extends Entity {
