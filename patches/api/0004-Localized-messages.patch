@@ -6,7 +6,7 @@ Subject: [PATCH] Localized messages
 
 diff --git a/src/main/java/net/luminu/paper/locale/PaperLocaleProvider.java b/src/main/java/net/luminu/paper/locale/PaperLocaleProvider.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3d165f7339152f7fd65b3a0beb587a28d969be63
+index 0000000000000000000000000000000000000000..0892f0f07aa822d7cb449f88955bca4810be081d
 --- /dev/null
 +++ b/src/main/java/net/luminu/paper/locale/PaperLocaleProvider.java
 @@ -0,0 +1,46 @@
@@ -57,7 +57,7 @@ index 0000000000000000000000000000000000000000..3d165f7339152f7fd65b3a0beb587a28
 +    void sendMessage(@NotNull CommandSender sender, @NotNull String key, @Nullable String... replacements);
 +}
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 0f6e966cbafd3aed61e7555ac1db5ee98756820e..58f73bee252a1ad07de7a3567bf028c4529eb9fb 100644
+index 17561dea3ebb10a52e320bb27f9668bd0f03f26c..4a951bd880ae387487c01b55193915101a1d7d68 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -108,6 +108,11 @@ public final class Bukkit {
@@ -72,7 +72,7 @@ index 0f6e966cbafd3aed61e7555ac1db5ee98756820e..58f73bee252a1ad07de7a3567bf028c4
      // Luminu end
  
      /**
-@@ -286,6 +291,29 @@ public final class Bukkit {
+@@ -298,6 +303,29 @@ public final class Bukkit {
          return server.broadcastMessage(message);
      }
  
@@ -103,7 +103,7 @@ index 0f6e966cbafd3aed61e7555ac1db5ee98756820e..58f73bee252a1ad07de7a3567bf028c4
      /**
       * Sends the component to all online players.
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 14a810445e2d94aacba179a6448342319569928d..c77a2758c19fbdb33fb31c8142fe17b75a3d8db1 100644
+index 2a6c7417ffeb0be6d01288c2a875a45a4503c879..7c762ad967cad56ca0fc9baaa224be54c4f3e9a4 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
 @@ -13,6 +13,7 @@ import java.util.Set;
@@ -124,7 +124,7 @@ index 14a810445e2d94aacba179a6448342319569928d..c77a2758c19fbdb33fb31c8142fe17b7
      // Luminu end
  
      /**
-@@ -235,6 +239,33 @@ public interface Server extends PluginMessageRecipient {
+@@ -245,6 +249,33 @@ public interface Server extends PluginMessageRecipient {
       */
      public int broadcastMessage(@NotNull String message);
  
