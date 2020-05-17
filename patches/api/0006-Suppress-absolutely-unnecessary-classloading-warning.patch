@@ -5,10 +5,10 @@ Subject: [PATCH] Suppress absolutely unnecessary classloading warning
 
 
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index 3a02dbe9d183bc907dcce081d8338d5716ed5242..99be5ce2a8722c9c8def6beaae7095c7dd32521b 100644
+index 2abd140ce238c511c513179e360782ab7ecb53c8..fb5dca2ad5bc85747feb6c6865273c6b5103312f 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-@@ -111,6 +111,7 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
+@@ -115,6 +115,7 @@ public final class PluginClassLoader extends URLClassLoader { // Spigot
                  result = loader.getClassByName(name);
  
                  if (result != null) {

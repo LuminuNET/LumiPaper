@@ -1,4 +1,4 @@
-Paper
+LumiPaper
 ==
 
 ## License
