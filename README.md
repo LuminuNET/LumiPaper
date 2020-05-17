@@ -1,15 +1,11 @@
-LumiPaper
+Paper
 ==
 
-Probably not of any use for the public, but here it is anyways!
-
 ## License
-The PATCHES-LICENSE file describes the license for api & server patches, 
-found in `./patches/api` and `./patches/server`.
+The PATCHES-LICENSE.txt file describes the license for api, mojangapi, and server patches, 
+found in `./patches/api`, `./patches/mojangapi`, and `./patches/server`.
 
-Everything else is licensed under the MIT license. 
-See https://github.com/starlis/empirecraft and https://github.com/electronicboy/byof 
-for the license of material used/modified by this project.
+Keep patch author tags, even if porting single patches. Use co-authored if necessary.
 
 ## Plugin developers
 In order to use Paper as a dependency you must following the steps laid out
