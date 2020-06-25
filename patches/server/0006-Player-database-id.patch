@@ -5,10 +5,10 @@ Subject: [PATCH] Player database id
 
 
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index 57037afed7ba04ccf1f55d590f270ac2b2fda2ce..ae635553794960155cde0115e88ddca43667142a 100644
+index 5b634f2385f6dbb62cf3884daabded3870e8b8cc..11b5f282ba4ada05b13f2d02142a9841726f893d 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
-@@ -73,6 +73,7 @@ public abstract class PlayerList {
+@@ -74,6 +74,7 @@ public abstract class PlayerList {
      // CraftBukkit start
      private CraftServer cserver;
      private final Map<String,EntityPlayer> playersByName = new java.util.HashMap<>();
@@ -16,7 +16,7 @@ index 57037afed7ba04ccf1f55d590f270ac2b2fda2ce..ae635553794960155cde0115e88ddca4
      @Nullable String collideRuleTeamName; // Paper - Team name used for collideRule
  
      public PlayerList(MinecraftServer minecraftserver, int i) {
-@@ -224,6 +225,7 @@ public abstract class PlayerList {
+@@ -226,6 +227,7 @@ public abstract class PlayerList {
          playerconnection.a(entityplayer.locX(), entityplayer.locY(), entityplayer.locZ(), entityplayer.yaw, entityplayer.pitch);
          this.players.add(entityplayer);
          this.playersByName.put(entityplayer.getName().toLowerCase(java.util.Locale.ROOT), entityplayer); // Spigot
@@ -24,7 +24,7 @@ index 57037afed7ba04ccf1f55d590f270ac2b2fda2ce..ae635553794960155cde0115e88ddca4
          this.j.put(entityplayer.getUniqueID(), entityplayer);
          // this.sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, new EntityPlayer[]{entityplayer})); // CraftBukkit - replaced with loop below
  
-@@ -506,6 +508,7 @@ public abstract class PlayerList {
+@@ -508,6 +510,7 @@ public abstract class PlayerList {
          entityplayer.getAdvancementData().a();
          this.players.remove(entityplayer);
          this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
@@ -32,7 +32,7 @@ index 57037afed7ba04ccf1f55d590f270ac2b2fda2ce..ae635553794960155cde0115e88ddca4
          this.server.getBossBattleCustomData().b(entityplayer);
          UUID uuid = entityplayer.getUniqueID();
          EntityPlayer entityplayer1 = (EntityPlayer) this.j.get(uuid);
-@@ -675,6 +678,7 @@ public abstract class PlayerList {
+@@ -678,6 +681,7 @@ public abstract class PlayerList {
          entityplayer.stopRiding(); // CraftBukkit
          this.players.remove(entityplayer);
          this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
@@ -40,7 +40,7 @@ index 57037afed7ba04ccf1f55d590f270ac2b2fda2ce..ae635553794960155cde0115e88ddca4
          entityplayer.getWorldServer().removePlayer(entityplayer);
          BlockPosition blockposition = entityplayer.getBed();
          boolean flag1 = entityplayer.isRespawnForced();
-@@ -790,6 +794,7 @@ public abstract class PlayerList {
+@@ -794,6 +798,7 @@ public abstract class PlayerList {
              worldserver.addPlayerRespawn(entityplayer1);
              this.players.add(entityplayer1);
              this.playersByName.put(entityplayer1.getName().toLowerCase(java.util.Locale.ROOT), entityplayer1); // Spigot
@@ -49,7 +49,7 @@ index 57037afed7ba04ccf1f55d590f270ac2b2fda2ce..ae635553794960155cde0115e88ddca4
          }
          // entityplayer1.syncInventory();
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index a2c037e12ef50efd64937c7ae3f881652a26ed9f..5b8290d775c723962b7f425f460c47795a11c376 100644
+index 55573f5d42c9374f87f95e15af69c84b4e3374b4..927e1fa56a155ba79c36e5f24d3eecdc9fcbb028 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -492,6 +492,12 @@ public final class CraftServer implements Server {
@@ -66,10 +66,10 @@ index a2c037e12ef50efd64937c7ae3f881652a26ed9f..5b8290d775c723962b7f425f460c4779
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 0ded589b624c1b9f49155471fd703c772d2d9ed4..bf957d2d92547117446425866815475e3cad1a75 100644
+index 02f1e67b72fcbdcd83a26331d9677300e2a75777..6fa0a91c539fa90055b82bdacd3428d18e3eb412 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -1890,6 +1890,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1897,6 +1897,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      // Luminu start
      private java.util.Locale locale = java.util.Locale.GERMAN;
