@@ -18,19 +18,19 @@ index 4571cdf0217d840a32427efeeb5d8b993bdcf326..384a949208db5bf4cf1cc7bdf0cedd86
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/EntityHuman.java b/src/main/java/net/minecraft/server/EntityHuman.java
-index 7df24be46e4471ae0ddad5cded5eef4937fd37a3..473efe57a6524cc23bc477416b4ccc35e5f1148e 100644
+index 3fa9e7b52b24629c96436fdd46d4e8c28c35f00e..2a290fbedbfdc7a1086f92d82cf827c32481ea71 100644
 --- a/src/main/java/net/minecraft/server/EntityHuman.java
 +++ b/src/main/java/net/minecraft/server/EntityHuman.java
-@@ -1114,7 +1114,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1093,7 +1093,7 @@ public abstract class EntityHuman extends EntityLiving {
  
                      if (flag5) {
                          if (i > 0) {
 -                            if (entity instanceof EntityLiving) {
 +                            if (false && entity instanceof EntityLiving) { // Luminu - old knockback
-                                 ((EntityLiving) entity).a(this, (float) i * 0.5F, (double) MathHelper.sin(this.yaw * 0.017453292F), (double) (-MathHelper.cos(this.yaw * 0.017453292F)));
-                             } else {
-                                 entity.h((double) (-MathHelper.sin(this.yaw * 0.017453292F) * (float) i * 0.5F), 0.1D, (double) (MathHelper.cos(this.yaw * 0.017453292F) * (float) i * 0.5F));
-@@ -1128,7 +1128,7 @@ public abstract class EntityHuman extends EntityLiving {
+                                 ((EntityLiving) entity).knockingBackEntity = this; // Paper
+                                 ((EntityLiving) entity).a((float) i * 0.5F, (double) MathHelper.sin(this.yaw * 0.017453292F), (double) (-MathHelper.cos(this.yaw * 0.017453292F)));
+                                 ((EntityLiving) entity).knockingBackEntity = null; // Paper
+@@ -1109,7 +1109,7 @@ public abstract class EntityHuman extends EntityLiving {
                              // Paper end
                          }
  
@@ -40,10 +40,10 @@ index 7df24be46e4471ae0ddad5cded5eef4937fd37a3..473efe57a6524cc23bc477416b4ccc35
                              List<EntityLiving> list = this.world.a(EntityLiving.class, entity.getBoundingBox().grow(1.0D, 0.25D, 1.0D));
                              Iterator iterator = list.iterator();
 diff --git a/src/main/java/net/minecraft/server/EntityLiving.java b/src/main/java/net/minecraft/server/EntityLiving.java
-index 3fc2360a103a5399f2878eccb0c13eb6e41e824d..f1d6ba766d0343f425cbc29c2873f67f0192fca6 100644
+index 14606a12c472e0e58f76023a53a4129536ac5cc4..26b951ad0ed91513220c14f4084099b62977c011 100644
 --- a/src/main/java/net/minecraft/server/EntityLiving.java
 +++ b/src/main/java/net/minecraft/server/EntityLiving.java
-@@ -1451,7 +1451,7 @@ public abstract class EntityLiving extends Entity {
+@@ -1565,7 +1565,7 @@ public abstract class EntityLiving extends Entity {
              Vec3D vec3d = this.getMot();
              Vec3D vec3d1 = (new Vec3D(d0, 0.0D, d1)).d().a((double) f);
  
@@ -53,11 +53,11 @@ index 3fc2360a103a5399f2878eccb0c13eb6e41e824d..f1d6ba766d0343f425cbc29c2873f67f
              // Paper start - call EntityKnockbackByEntityEvent
              Vec3D currentMot = this.getMot();
 diff --git a/src/main/java/net/minecraft/server/Items.java b/src/main/java/net/minecraft/server/Items.java
-index 54670f64cf57b05e201550f6b6ff6a659a3d16b0..706097cd072b6b62ec751fe2e829b76178c5934f 100644
+index 89a9eec99426a7cb8bfa9da38a441fd51e2dac35..82f4b631e003d3a9828d35a1d81af6acc7881670 100644
 --- a/src/main/java/net/minecraft/server/Items.java
 +++ b/src/main/java/net/minecraft/server/Items.java
-@@ -522,9 +522,11 @@ public class Items {
-     public static final Item iX = a(Blocks.COMPOSTER, CreativeModeTab.f);
+@@ -574,9 +574,11 @@ public class Items {
+     public static final Item jX = a((ItemBlock) (new ItemRestricted(Blocks.JIGSAW, (new Item.Info()).a(EnumItemRarity.EPIC))));
      public static final Item TURTLE_HELMET = a("turtle_helmet", (Item) (new ItemArmor(EnumArmorMaterial.TURTLE, EnumItemSlot.HEAD, (new Item.Info()).a(CreativeModeTab.j))));
      public static final Item SCUTE = a("scute", new Item((new Item.Info()).a(CreativeModeTab.l)));
 -    public static final Item IRON_SHOVEL = a("iron_shovel", (Item) (new ItemSpade(EnumToolMaterial.IRON, 1.5F, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
@@ -71,23 +71,19 @@ index 54670f64cf57b05e201550f6b6ff6a659a3d16b0..706097cd072b6b62ec751fe2e829b761
      public static final Item FLINT_AND_STEEL = a("flint_and_steel", (Item) (new ItemFlintAndSteel((new Item.Info()).c(64).a(CreativeModeTab.i))));
      public static final Item APPLE = a("apple", new Item((new Item.Info()).a(CreativeModeTab.h).a(Foods.a)));
      public static final Item BOW = a("bow", (Item) (new ItemBow((new Item.Info()).c(384).a(CreativeModeTab.j))));
-@@ -534,26 +536,30 @@ public class Items {
+@@ -586,6 +588,7 @@ public class Items {
      public static final Item DIAMOND = a("diamond", new Item((new Item.Info()).a(CreativeModeTab.l)));
      public static final Item IRON_INGOT = a("iron_ingot", new Item((new Item.Info()).a(CreativeModeTab.l)));
      public static final Item GOLD_INGOT = a("gold_ingot", new Item((new Item.Info()).a(CreativeModeTab.l)));
--    public static final Item IRON_SWORD = a("iron_sword", (Item) (new ItemSword(EnumToolMaterial.IRON, 3, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
--    public static final Item WOODEN_SWORD = a("wooden_sword", (Item) (new ItemSword(EnumToolMaterial.WOOD, 3, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
--    public static final Item WOODEN_SHOVEL = a("wooden_shovel", (Item) (new ItemSpade(EnumToolMaterial.WOOD, 1.5F, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item WOODEN_PICKAXE = a("wooden_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.WOOD, 1, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item WOODEN_AXE = a("wooden_axe", (Item) (new ItemAxe(EnumToolMaterial.WOOD, 6.0F, -3.2F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item STONE_SWORD = a("stone_sword", (Item) (new ItemSword(EnumToolMaterial.STONE, 3, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
--    public static final Item STONE_SHOVEL = a("stone_shovel", (Item) (new ItemSpade(EnumToolMaterial.STONE, 1.5F, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item STONE_PICKAXE = a("stone_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.STONE, 1, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item STONE_AXE = a("stone_axe", (Item) (new ItemAxe(EnumToolMaterial.STONE, 7.0F, -3.2F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item DIAMOND_SWORD = a("diamond_sword", (Item) (new ItemSword(EnumToolMaterial.DIAMOND, 3, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
--    public static final Item DIAMOND_SHOVEL = a("diamond_shovel", (Item) (new ItemSpade(EnumToolMaterial.DIAMOND, 1.5F, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item DIAMOND_PICKAXE = a("diamond_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.DIAMOND, 1, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item DIAMOND_AXE = a("diamond_axe", (Item) (new ItemAxe(EnumToolMaterial.DIAMOND, 5.0F, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
++<<<<<<< HEAD
+     public static final Item NETHERITE_INGOT = a("netherite_ingot", new Item((new Item.Info()).a(CreativeModeTab.l).a()));
+     public static final Item NETHERITE_SCRAP = a("netherite_scrap", new Item((new Item.Info()).a(CreativeModeTab.l).a()));
+     public static final Item IRON_SWORD = a("iron_sword", (Item) (new ItemSword(EnumToolMaterial.IRON, 3, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
+@@ -612,6 +615,32 @@ public class Items {
+     public static final Item NETHERITE_SHOVEL = a("netherite_shovel", (Item) (new ItemSpade(EnumToolMaterial.NETHERITE, 1.5F, -3.0F, (new Item.Info()).a(CreativeModeTab.i).a())));
+     public static final Item NETHERITE_PICKAXE = a("netherite_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.NETHERITE, 1, -2.8F, (new Item.Info()).a(CreativeModeTab.i).a())));
+     public static final Item NETHERITE_AXE = a("netherite_axe", (Item) (new ItemAxe(EnumToolMaterial.NETHERITE, 5.0F, -3.0F, (new Item.Info()).a(CreativeModeTab.i).a())));
++=======
 +    // Luminu start - old tool damage
 +    public static final Item IRON_SWORD = a("iron_sword", (Item) (new ItemSword(EnumToolMaterial.IRON, 4, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
 +    public static final Item WOODEN_SWORD = a("wooden_sword", (Item) (new ItemSword(EnumToolMaterial.WOOD, 4, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
@@ -103,19 +99,16 @@ index 54670f64cf57b05e201550f6b6ff6a659a3d16b0..706097cd072b6b62ec751fe2e829b761
 +    public static final Item DIAMOND_PICKAXE = a("diamond_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.DIAMOND, 2, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
 +    public static final Item DIAMOND_AXE = a("diamond_axe", (Item) (new ItemAxe(EnumToolMaterial.DIAMOND, 3, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
 +    // Luminu end
-     public static final Item STICK = a("stick", new Item((new Item.Info()).a(CreativeModeTab.l)));
-     public static final Item BOWL = a("bowl", new Item((new Item.Info()).a(CreativeModeTab.l)));
-     public static final Item MUSHROOM_STEW = a("mushroom_stew", (Item) (new ItemSoup((new Item.Info()).a(1).a(CreativeModeTab.h).a(Foods.y))));
--    public static final Item GOLDEN_SWORD = a("golden_sword", (Item) (new ItemSword(EnumToolMaterial.GOLD, 3, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
--    public static final Item GOLDEN_SHOVEL = a("golden_shovel", (Item) (new ItemSpade(EnumToolMaterial.GOLD, 1.5F, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item GOLDEN_PICKAXE = a("golden_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.GOLD, 1, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item GOLDEN_AXE = a("golden_axe", (Item) (new ItemAxe(EnumToolMaterial.GOLD, 6.0F, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
++    public static final Item STICK = a("stick", new Item((new Item.Info()).a(CreativeModeTab.l)));
++    public static final Item BOWL = a("bowl", new Item((new Item.Info()).a(CreativeModeTab.l)));
++    public static final Item MUSHROOM_STEW = a("mushroom_stew", (Item) (new ItemSoup((new Item.Info()).a(1).a(CreativeModeTab.h).a(Foods.y))));
 +    // Luminu start - old tool damage
 +    public static final Item GOLDEN_SWORD = a("golden_sword", (Item) (new ItemSword(EnumToolMaterial.GOLD, 4, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
 +    public static final Item GOLDEN_SHOVEL = a("golden_shovel", (Item) (new ItemSpade(EnumToolMaterial.GOLD, 1, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
 +    public static final Item GOLDEN_PICKAXE = a("golden_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.GOLD, 2, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
 +    public static final Item GOLDEN_AXE = a("golden_axe", (Item) (new ItemAxe(EnumToolMaterial.GOLD, 3, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
 +    // Luminu end
++>>>>>>> Old combat mechanics
      public static final Item STRING = a("string", (Item) (new ItemNamedBlock(Blocks.TRIPWIRE, (new Item.Info()).a(CreativeModeTab.f))));
      public static final Item FEATHER = a("feather", new Item((new Item.Info()).a(CreativeModeTab.l)));
      public static final Item GUNPOWDER = a("gunpowder", new Item((new Item.Info()).a(CreativeModeTab.l)));

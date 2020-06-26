@@ -5,10 +5,10 @@ Subject: [PATCH] Localized messages
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 178cf5f98608bdd1e57c736388149a1fdcab2543..55573f5d42c9374f87f95e15af69c84b4e3374b4 100644
+index 98be7bec56844c65832b6e20d9613cd16d6493ac..3e819b6d7028f279236f3bd3d4a00b60f0a3d16e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -481,10 +481,17 @@ public final class CraftServer implements Server {
+@@ -505,10 +505,17 @@ public final class CraftServer implements Server {
      }
  
      // Luminu start - readd servername
@@ -27,10 +27,10 @@ index 178cf5f98608bdd1e57c736388149a1fdcab2543..55573f5d42c9374f87f95e15af69c84b
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 141003ca718cc6ba113de8e4855b18252b293ef6..02f1e67b72fcbdcd83a26331d9677300e2a75777 100644
+index 1b84d4f26da310c94510fa4c0da9a68ec8c6b71c..f72730cade1297dc8559638ddebe41c9af0e71ff 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -1887,6 +1887,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1927,6 +1927,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      }
  
      @Override
@@ -38,7 +38,7 @@ index 141003ca718cc6ba113de8e4855b18252b293ef6..02f1e67b72fcbdcd83a26331d9677300
      public String getLocale() {
          // Paper start - Locale change event
          final String locale = getHandle().locale;
-@@ -1894,6 +1895,20 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1934,6 +1935,20 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          // Paper end
      }
  

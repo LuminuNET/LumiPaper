@@ -5,10 +5,10 @@ Subject: [PATCH] Opt to disable data and log saving
 
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 32cd645abb236b355f4f4f0f810e56342ee6cc06..edd4ce6e1e9f476617bee9776ffd9b0c73769b6f 100644
+index 4c561181a977fd0244325880bb6a8cd6a54dcacc..743b36756a631199290cd1e928f863783e48b954 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -155,6 +155,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -131,6 +131,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          */
          // Paper end
  
@@ -24,19 +24,19 @@ index 32cd645abb236b355f4f4f0f810e56342ee6cc06..edd4ce6e1e9f476617bee9776ffd9b0c
          System.setOut(org.apache.logging.log4j.io.IoBuilder.forLogger(logger).setLevel(Level.INFO).buildPrintStream());
          System.setErr(org.apache.logging.log4j.io.IoBuilder.forLogger(logger).setLevel(Level.WARN).buildPrintStream());
 diff --git a/src/main/java/net/minecraft/server/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
-index b1cadcc2f019334f693f48aa3f3f117ae4ed1980..5b773ed7b8f8a73ea4cee0d52812deddd7c633a3 100644
+index 410d2595258cbf13900877ca4dd9d2872cb85eb0..18d27b8d4e8827ecf60ad8932896aba611b8d8bf 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
-@@ -54,6 +54,8 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
-     public final PropertyManager<DedicatedServerProperties>.EditableProperty<Integer> playerIdleTimeout;
+@@ -55,6 +55,8 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
      public final PropertyManager<DedicatedServerProperties>.EditableProperty<Boolean> whiteList;
+     public final GeneratorSettings generatorSettings;
      public String serverName; // Luminu - readd (configurable) servername
 +    public boolean saveDataOnStop; // Luminu - option to disable world and player data saving on stop
 +    public boolean saveLogsToFile; // Luminu - option to disable log file saving
  
      public final String rconIp; // Paper - Add rcon ip
  
-@@ -108,6 +110,8 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
+@@ -113,6 +115,8 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
          this.rconIp = rconIp == null ? this.serverIp : rconIp;
          // Paper end
          this.serverName = this.getString("server-name", "Unknown server"); // Luminu - readd servername
@@ -46,10 +46,10 @@ index b1cadcc2f019334f693f48aa3f3f117ae4ed1980..5b773ed7b8f8a73ea4cee0d52812dedd
  
      // CraftBukkit start
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 4ab6579032043f570c20befa7fef8931babd2355..0a760fc9a7e7de77b63a34bd9485cf9da4080794 100644
+index e1d8a0e885cc9d7270c973cf947b4ab09f9e200b..dec5a1e19f04603eec492c31ac23485689fe0970 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -754,6 +754,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -780,6 +780,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              this.getServerConnection().b();
          }
  
@@ -58,7 +58,7 @@ index 4ab6579032043f570c20befa7fef8931babd2355..0a760fc9a7e7de77b63a34bd9485cf9d
          if (this.playerList != null) {
              MinecraftServer.LOGGER.info("Saving players");
              this.playerList.savePlayers();
-@@ -800,6 +802,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -833,6 +835,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              this.getUserCache().c(false); // Paper
          }
          // Spigot end
@@ -66,13 +66,13 @@ index 4ab6579032043f570c20befa7fef8931babd2355..0a760fc9a7e7de77b63a34bd9485cf9d
          // Paper start - move final shutdown items here
          LOGGER.info("Flushing Chunk IO");
          com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
-@@ -1001,13 +1004,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1033,13 +1036,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
                  crashreport = this.b(new CrashReport("Exception in server tick loop", throwable));
              }
  
 +            // Luminu start - option to disable log file saving
 +            if (server.getServer().propertyManager.getProperties().saveLogsToFile) {
-             File file = new File(new File(this.z(), "crash-reports"), "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-server.txt");
+             File file = new File(new File(this.A(), "crash-reports"), "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-server.txt");
 -
              if (crashreport.a(file)) {
                  MinecraftServer.LOGGER.error("This crash report has been saved to: {}", file.getAbsolutePath());

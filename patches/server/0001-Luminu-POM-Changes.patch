@@ -5,13 +5,13 @@ Subject: [PATCH] Luminu POM Changes
 
 
 diff --git a/pom.xml b/pom.xml
-index e4c63bb76cb598545f9d215a8859724d6e7f8b81..129ad0ce6547bc902e9510d093029862559d67dc 100644
+index 2b24688310f14b6a9e3fe04fe8b41cd1803b78c1..925b7f347ebd8c4e2726b25c0bb475f85ac5f603 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -4,7 +4,7 @@
      <artifactId>paper</artifactId>
      <packaging>jar</packaging>
-     <version>1.15.2-R0.1-SNAPSHOT</version>
+     <version>1.16.1-R0.1-SNAPSHOT</version>
 -    <name>Paper</name>
 +    <name>LumiPaper-Server</name>
      <url>https://papermc.io</url>

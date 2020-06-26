@@ -18,10 +18,10 @@ index 9a48a4e90c1b1cbcc8dc604fdf0f20a6d0f3bd22..ca0686320f4fe00d0b72fbeaf55f0cc8
      public PacketPlayOutPlayerInfo() {}
  
 diff --git a/src/main/java/net/minecraft/server/TileEntitySkull.java b/src/main/java/net/minecraft/server/TileEntitySkull.java
-index 0882d82cef92382cd4639ee7c9858fa5d59b3e5a..0e503815bce231a1924e5d70096cd4f8ad9458ab 100644
+index fb7aa15c272678be7ec2a1d28891a62121695ed8..5c7110cd7843400574eef9e98ad9754e45e4ec6c 100644
 --- a/src/main/java/net/minecraft/server/TileEntitySkull.java
 +++ b/src/main/java/net/minecraft/server/TileEntitySkull.java
-@@ -37,7 +37,7 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
+@@ -40,7 +40,7 @@ public class TileEntitySkull extends TileEntity /*implements ITickable*/ { // Pa
                      .setNameFormat("Head Conversion Thread - %1$d")
                      .build()
      );

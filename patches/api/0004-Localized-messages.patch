@@ -57,7 +57,7 @@ index 0000000000000000000000000000000000000000..0892f0f07aa822d7cb449f88955bca48
 +    void sendMessage(@NotNull CommandSender sender, @NotNull String key, @Nullable String... replacements);
 +}
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 17561dea3ebb10a52e320bb27f9668bd0f03f26c..4a951bd880ae387487c01b55193915101a1d7d68 100644
+index 45106848feb8ed68d7c297da2923312670728d68..97954bf5e7c0eb243d82902baa88bab030c25995 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -108,6 +108,11 @@ public final class Bukkit {
@@ -103,7 +103,7 @@ index 17561dea3ebb10a52e320bb27f9668bd0f03f26c..4a951bd880ae387487c01b5519391510
      /**
       * Sends the component to all online players.
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 2a6c7417ffeb0be6d01288c2a875a45a4503c879..7c762ad967cad56ca0fc9baaa224be54c4f3e9a4 100644
+index b8cce8d9323924224213e53f5cfb4fa6d06af8bb..f9b3a7316f84b917fe02444419055770bd02ecfe 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
 @@ -13,6 +13,7 @@ import java.util.Set;
@@ -222,10 +222,10 @@ index d3b3a8bf94dac370ea254875e4d4a30894a70c67..88048354af5795277c18d76724686e66
       * Sends this sender multiple messages
       *
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 787bb144b5918ef1e46d69cb72b84128d2b678f3..fe2208f506c7dda719e62ff269409c333648f073 100644
+index e133fe79d0cfdcc057a3101f0b7b5877fbc82b3c..bdeb64c5c94d5f37fa437e527c37bea58d32aeec 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -625,6 +625,31 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -651,6 +651,31 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void sendActionBar(char alternateChar, @NotNull String message);
  
@@ -257,7 +257,7 @@ index 787bb144b5918ef1e46d69cb72b84128d2b678f3..fe2208f506c7dda719e62ff269409c33
      /**
       * Sends the component to the player
       *
-@@ -1347,6 +1372,54 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1373,6 +1398,54 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void sendTitle(@Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut);
  
@@ -312,7 +312,7 @@ index 787bb144b5918ef1e46d69cb72b84128d2b678f3..fe2208f506c7dda719e62ff269409c33
      /**
       * Resets the title displayed to the player. This will clear the displayed
       * title / subtitle and reset timings to their default values.
-@@ -1589,8 +1662,19 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1615,8 +1688,19 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @return the player's locale
       */
      @NotNull
