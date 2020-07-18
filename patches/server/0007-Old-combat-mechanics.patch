@@ -4,111 +4,212 @@ Date: Mon, 9 Mar 2020 17:19:46 +0100
 Subject: [PATCH] Old combat mechanics
 
 
+diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
+index 741c06a27e664211a7023a6369f8e69cbb41a321..4eda8349e42a90ed260aa7cbc60a0829fbe7af5e 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
++++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
+@@ -222,6 +222,19 @@ public class PaperConfig {
+                 " - Server Name: " + timingsServerName);
+     }
+ 
++    // Luminu start - old combat options
++    public static boolean disableSweeping;
++    public static boolean oldToolDamage;
++    public static boolean oldKnockback;
++    public static boolean disableNewHitSounds;
++    private static void combatSettings() {
++        disableSweeping = getBoolean("settings.combat.disable-sweeping", disableSweeping);
++        oldToolDamage = getBoolean("settings.combat.old-tool-damage", oldToolDamage);
++        oldKnockback = getBoolean("settings.combat.old-knockback", oldKnockback);
++        disableNewHitSounds = getBoolean("settings.combat.disable-new-hit-sounds", disableNewHitSounds);
++    }
++    // Luminu end
++
+     public static boolean loadPermsBeforePlugins = true;
+     private static void loadPermsBeforePlugins() {
+         loadPermsBeforePlugins = getBoolean("settings.load-permissions-yml-before-plugins", true);
+diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
+index 84b8a2805b9774aac4d1150a9f7a0b94725e0073..3a7b21ac1e0ab3b009d43d437f1f0142bd1d0702 100644
+--- a/src/main/java/net/minecraft/server/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/DedicatedServer.java
+@@ -178,6 +178,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+         com.destroystokyo.paper.PaperConfig.registerCommands();
+         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
+         // Paper end
++        // Luminu start - old combat options
++        if (com.destroystokyo.paper.PaperConfig.oldToolDamage) {
++            net.minecraft.server.Items.setOldToolDamageValues();
++        }
++        // Luminu end
+ 
+         this.setPVP(dedicatedserverproperties.pvp);
+         this.setAllowFlight(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/server/EnchantmentWeaponDamage.java b/src/main/java/net/minecraft/server/EnchantmentWeaponDamage.java
-index 4571cdf0217d840a32427efeeb5d8b993bdcf326..384a949208db5bf4cf1cc7bdf0cedd8628473b90 100644
+index 4571cdf0217d840a32427efeeb5d8b993bdcf326..3bebd881a8593cbc85551d3c4fd2b1e651ea082b 100644
 --- a/src/main/java/net/minecraft/server/EnchantmentWeaponDamage.java
 +++ b/src/main/java/net/minecraft/server/EnchantmentWeaponDamage.java
-@@ -30,7 +30,7 @@ public class EnchantmentWeaponDamage extends Enchantment {
+@@ -30,7 +30,12 @@ public class EnchantmentWeaponDamage extends Enchantment {
  
      @Override
      public float a(int i, EnumMonsterType enummonstertype) {
 -        return this.a == 0 ? 1.0F + (float) Math.max(0, i - 1) * 0.5F : (this.a == 1 && enummonstertype == EnumMonsterType.UNDEAD ? (float) i * 2.5F : (this.a == 2 && enummonstertype == EnumMonsterType.ARTHROPOD ? (float) i * 2.5F : 0.0F));
++        // Luminu start - old tool damage
++        if (com.destroystokyo.paper.PaperConfig.oldToolDamage) {
++            return this.a == 0 ? 1.0F + (float) Math.max(0, i - 1) * 0.5F : (this.a == 1 && enummonstertype == EnumMonsterType.UNDEAD ? (float) i * 2.5F : (this.a == 2 && enummonstertype == EnumMonsterType.ARTHROPOD ? (float) i * 2.5F : 0.0F));
++        }
++        // Luminu end
 +        return this.a == 0 ? i * 1.25F : (this.a == 1 && enummonstertype == EnumMonsterType.UNDEAD ? (float) i * 2.5F : (this.a == 2 && enummonstertype == EnumMonsterType.ARTHROPOD ? (float) i * 2.5F : 0.0F));
      }
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/EntityHuman.java b/src/main/java/net/minecraft/server/EntityHuman.java
-index 3fa9e7b52b24629c96436fdd46d4e8c28c35f00e..2a290fbedbfdc7a1086f92d82cf827c32481ea71 100644
+index 2cada09ced1660526e9c112c2c8d92bbf9d6ea98..5c26317ca1be994aa42bfb7999bcd5cc81478f91 100644
 --- a/src/main/java/net/minecraft/server/EntityHuman.java
 +++ b/src/main/java/net/minecraft/server/EntityHuman.java
-@@ -1093,7 +1093,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1044,6 +1044,7 @@ public abstract class EntityHuman extends EntityLiving {
+                     int i = b0 + EnchantmentManager.b((EntityLiving) this);
  
-                     if (flag5) {
-                         if (i > 0) {
--                            if (entity instanceof EntityLiving) {
-+                            if (false && entity instanceof EntityLiving) { // Luminu - old knockback
-                                 ((EntityLiving) entity).knockingBackEntity = this; // Paper
-                                 ((EntityLiving) entity).a((float) i * 0.5F, (double) MathHelper.sin(this.yaw * 0.017453292F), (double) (-MathHelper.cos(this.yaw * 0.017453292F)));
-                                 ((EntityLiving) entity).knockingBackEntity = null; // Paper
-@@ -1109,7 +1109,7 @@ public abstract class EntityHuman extends EntityLiving {
-                             // Paper end
-                         }
+                     if (this.isSprinting() && flag) {
++                        if (!com.destroystokyo.paper.PaperConfig.disableNewHitSounds) // Luminu - disable new hit sound
+                         sendSoundEffect(this, this.locX(), this.locY(), this.locZ(), SoundEffects.ENTITY_PLAYER_ATTACK_KNOCKBACK, this.getSoundCategory(), 1.0F, 1.0F); // Paper - send while respecting visibility
+                         ++i;
+                         flag1 = true;
+@@ -1061,7 +1062,7 @@ public abstract class EntityHuman extends EntityLiving {
+                     boolean flag3 = false;
+                     double d0 = (double) (this.A - this.z);
  
--                        if (flag3) {
-+                        if (false && flag3) { // Luminu - old tool damage / remove sweeping
-                             float f4 = 1.0F + EnchantmentManager.a((EntityLiving) this) * f;
-                             List<EntityLiving> list = this.world.a(EntityLiving.class, entity.getBoundingBox().grow(1.0D, 0.25D, 1.0D));
-                             Iterator iterator = list.iterator();
+-                    if (flag && !flag2 && !flag1 && this.onGround && d0 < (double) this.dM()) {
++                    if (!com.destroystokyo.paper.PaperConfig.disableSweeping && flag && !flag2 && !flag1 && this.onGround && d0 < (double) this.dM()) { // Luminu - disable sweeping
+                         ItemStack itemstack = this.b(EnumHand.MAIN_HAND);
+ 
+                         if (itemstack.getItem() instanceof ItemSword) {
+@@ -1212,6 +1213,7 @@ public abstract class EntityHuman extends EntityLiving {
+ 
+                         this.applyExhaustion(world.spigotConfig.combatExhaustion); // Spigot - Change to use configurable value
+                     } else {
++                        if (!com.destroystokyo.paper.PaperConfig.disableNewHitSounds) // Luminu - disable new hit sound
+                         sendSoundEffect(this, this.locX(), this.locY(), this.locZ(), SoundEffects.ENTITY_PLAYER_ATTACK_NODAMAGE, this.getSoundCategory(), 1.0F, 1.0F); // Paper - send while respecting visibility
+                         if (flag4) {
+                             entity.extinguish();
 diff --git a/src/main/java/net/minecraft/server/EntityLiving.java b/src/main/java/net/minecraft/server/EntityLiving.java
-index 14606a12c472e0e58f76023a53a4129536ac5cc4..26b951ad0ed91513220c14f4084099b62977c011 100644
+index c388999d104682b84b5f0936efce9d270247d08c..7cf5795af11df40c806bd66caf4292a2aa118a05 100644
 --- a/src/main/java/net/minecraft/server/EntityLiving.java
 +++ b/src/main/java/net/minecraft/server/EntityLiving.java
-@@ -1565,7 +1565,7 @@ public abstract class EntityLiving extends Entity {
+@@ -1566,7 +1566,12 @@ public abstract class EntityLiving extends Entity {
              Vec3D vec3d = this.getMot();
              Vec3D vec3d1 = (new Vec3D(d0, 0.0D, d1)).d().a((double) f);
  
 -            this.setMot(vec3d.x / 2.0D - vec3d1.x, this.onGround ? Math.min(0.4D, vec3d.y / 2.0D + (double) f) : vec3d.y, vec3d.z / 2.0D - vec3d1.z);
-+            this.setMot(vec3d.x / 2.0D - vec3d1.x, Math.min(0.4D, vec3d.y / 2.0D + (double) f), vec3d.z / 2.0D - vec3d1.z); // Luminu - old knockback
++            // Luminu start - old knockback
++            if (com.destroystokyo.paper.PaperConfig.oldKnockback)
++                this.setMot(vec3d.x / 2.0D - vec3d1.x, Math.min(0.4D, vec3d.y / 2.0D + (double) f), vec3d.z / 2.0D - vec3d1.z);
++            else
++                this.setMot(vec3d.x / 2.0D - vec3d1.x, this.onGround ? Math.min(0.36D, vec3d.y / 2.0D + (double) f) : vec3d.y, vec3d.z / 2.0D - vec3d1.z);
++            // Luminu end
  
              // Paper start - call EntityKnockbackByEntityEvent
              Vec3D currentMot = this.getMot();
+diff --git a/src/main/java/net/minecraft/server/EnumToolMaterial.java b/src/main/java/net/minecraft/server/EnumToolMaterial.java
+index af74bd2c04cc391076717cd4da71e36fd0f86eb6..19b7b9da0cd43e8ab1593b5f62b73b5d78026b9b 100644
+--- a/src/main/java/net/minecraft/server/EnumToolMaterial.java
++++ b/src/main/java/net/minecraft/server/EnumToolMaterial.java
+@@ -21,7 +21,7 @@ public enum EnumToolMaterial implements ToolMaterial {
+     private final int g;
+     private final int h;
+     private final float i;
+-    private final float j;
++    private final float j; public float getExtraDamage() {return j;} // Luminu
+     private final int k;
+     private final LazyInitVar<RecipeItemStack> l;
+ 
+diff --git a/src/main/java/net/minecraft/server/ItemSword.java b/src/main/java/net/minecraft/server/ItemSword.java
+index 3e7d6fc0e37b4d08e960d406e3756aa38bdbba18..e0797edf344e5182dd772869f5d22885327f0a99 100644
+--- a/src/main/java/net/minecraft/server/ItemSword.java
++++ b/src/main/java/net/minecraft/server/ItemSword.java
+@@ -6,7 +6,7 @@ import com.google.common.collect.Multimap;
+ 
+ public class ItemSword extends ItemToolMaterial implements ItemVanishable {
+ 
+-    private final float a;
++    private float a; public void setDamage(float damage) {this.a = damage;} // Luminu
+     private final Multimap<AttributeBase, AttributeModifier> b;
+ 
+     public ItemSword(ToolMaterial toolmaterial, int i, float f, Item.Info item_info) {
+diff --git a/src/main/java/net/minecraft/server/ItemTool.java b/src/main/java/net/minecraft/server/ItemTool.java
+index f62734285def730272b49e1c1223e56baae1c342..ee877904ed289349e8d0c5cd635fcb4d27738796 100644
+--- a/src/main/java/net/minecraft/server/ItemTool.java
++++ b/src/main/java/net/minecraft/server/ItemTool.java
+@@ -9,7 +9,7 @@ public class ItemTool extends ItemToolMaterial implements ItemVanishable {
+ 
+     private final Set<Block> a;
+     protected final float b;
+-    private final float c;
++    private float c; public void setDamage(float damage) {this.c = damage;} // Luminu
+     private final Multimap<AttributeBase, AttributeModifier> d;
+ 
+     protected ItemTool(float f, float f1, ToolMaterial toolmaterial, Set<Block> set, Item.Info item_info) {
 diff --git a/src/main/java/net/minecraft/server/Items.java b/src/main/java/net/minecraft/server/Items.java
-index 89a9eec99426a7cb8bfa9da38a441fd51e2dac35..82f4b631e003d3a9828d35a1d81af6acc7881670 100644
+index 89a9eec99426a7cb8bfa9da38a441fd51e2dac35..cd119c3881f3773cd9fd01cc6414af7ceb15055e 100644
 --- a/src/main/java/net/minecraft/server/Items.java
 +++ b/src/main/java/net/minecraft/server/Items.java
-@@ -574,9 +574,11 @@ public class Items {
-     public static final Item jX = a((ItemBlock) (new ItemRestricted(Blocks.JIGSAW, (new Item.Info()).a(EnumItemRarity.EPIC))));
-     public static final Item TURTLE_HELMET = a("turtle_helmet", (Item) (new ItemArmor(EnumArmorMaterial.TURTLE, EnumItemSlot.HEAD, (new Item.Info()).a(CreativeModeTab.j))));
-     public static final Item SCUTE = a("scute", new Item((new Item.Info()).a(CreativeModeTab.l)));
--    public static final Item IRON_SHOVEL = a("iron_shovel", (Item) (new ItemSpade(EnumToolMaterial.IRON, 1.5F, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item IRON_PICKAXE = a("iron_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.IRON, 1, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
--    public static final Item IRON_AXE = a("iron_axe", (Item) (new ItemAxe(EnumToolMaterial.IRON, 6.0F, -3.1F, (new Item.Info()).a(CreativeModeTab.i))));
+@@ -1005,4 +1005,44 @@ public class Items {
+ 
+         return (Item) IRegistry.a((IRegistry) IRegistry.ITEM, minecraftkey, (Object) item);
+     }
++
 +    // Luminu start - old tool damage
-+    public static final Item IRON_SHOVEL = a("iron_shovel", (Item) (new ItemSpade(EnumToolMaterial.IRON, 1, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item IRON_PICKAXE = a("iron_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.IRON, 2, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item IRON_AXE = a("iron_axe", (Item) (new ItemAxe(EnumToolMaterial.IRON, 3, -3.1F, (new Item.Info()).a(CreativeModeTab.i))));
++    public static void setOldToolDamageValues() {
++        setToolDamage(Items.WOODEN_SHOVEL, 1, EnumToolMaterial.WOOD);
++        setToolDamage(Items.STONE_SHOVEL, 1, EnumToolMaterial.STONE);
++        setToolDamage(Items.IRON_SHOVEL, 1, EnumToolMaterial.IRON);
++        setToolDamage(Items.GOLDEN_SHOVEL, 1, EnumToolMaterial.GOLD);
++        setToolDamage(Items.DIAMOND_SHOVEL, 1, EnumToolMaterial.DIAMOND);
++        setToolDamage(Items.NETHERITE_SHOVEL, 1, EnumToolMaterial.NETHERITE);
++
++        setToolDamage(Items.WOODEN_PICKAXE, 2, EnumToolMaterial.WOOD);
++        setToolDamage(Items.STONE_PICKAXE, 2, EnumToolMaterial.STONE);
++        setToolDamage(Items.IRON_PICKAXE, 2, EnumToolMaterial.IRON);
++        setToolDamage(Items.GOLDEN_PICKAXE, 2, EnumToolMaterial.GOLD);
++        setToolDamage(Items.DIAMOND_PICKAXE, 2, EnumToolMaterial.DIAMOND);
++        setToolDamage(Items.NETHERITE_PICKAXE, 2, EnumToolMaterial.NETHERITE);
++
++        setToolDamage(Items.WOODEN_AXE, 3, EnumToolMaterial.WOOD);
++        setToolDamage(Items.STONE_AXE, 3, EnumToolMaterial.STONE);
++        setToolDamage(Items.IRON_AXE, 3, EnumToolMaterial.IRON);
++        setToolDamage(Items.GOLDEN_AXE, 3, EnumToolMaterial.GOLD);
++        setToolDamage(Items.DIAMOND_AXE, 3, EnumToolMaterial.DIAMOND);
++        setToolDamage(Items.NETHERITE_AXE, 3, EnumToolMaterial.NETHERITE);
++
++        setSwordDamage(Items.WOODEN_SWORD, 4, EnumToolMaterial.WOOD);
++        setSwordDamage(Items.STONE_SWORD, 4, EnumToolMaterial.STONE);
++        setSwordDamage(Items.IRON_SWORD, 4, EnumToolMaterial.IRON);
++        setSwordDamage(Items.GOLDEN_SWORD, 4, EnumToolMaterial.GOLD);
++        setSwordDamage(Items.DIAMOND_SWORD, 4, EnumToolMaterial.DIAMOND);
++        setSwordDamage(Items.NETHERITE_SWORD, 4, EnumToolMaterial.NETHERITE);
++    }
++
++    private static void setSwordDamage(Item item, int baseDamage, EnumToolMaterial enumToolMaterial) {
++        ((ItemSword) item).setDamage(baseDamage + enumToolMaterial.getExtraDamage());
++    }
++
++    private static void setToolDamage(Item item, int baseDamage, EnumToolMaterial enumToolMaterial) {
++        ((ItemTool) item).setDamage(baseDamage + enumToolMaterial.getExtraDamage());
++    }
 +    // Luminu end
-     public static final Item FLINT_AND_STEEL = a("flint_and_steel", (Item) (new ItemFlintAndSteel((new Item.Info()).c(64).a(CreativeModeTab.i))));
-     public static final Item APPLE = a("apple", new Item((new Item.Info()).a(CreativeModeTab.h).a(Foods.a)));
-     public static final Item BOW = a("bow", (Item) (new ItemBow((new Item.Info()).c(384).a(CreativeModeTab.j))));
-@@ -586,6 +588,7 @@ public class Items {
-     public static final Item DIAMOND = a("diamond", new Item((new Item.Info()).a(CreativeModeTab.l)));
-     public static final Item IRON_INGOT = a("iron_ingot", new Item((new Item.Info()).a(CreativeModeTab.l)));
-     public static final Item GOLD_INGOT = a("gold_ingot", new Item((new Item.Info()).a(CreativeModeTab.l)));
-+<<<<<<< HEAD
-     public static final Item NETHERITE_INGOT = a("netherite_ingot", new Item((new Item.Info()).a(CreativeModeTab.l).a()));
-     public static final Item NETHERITE_SCRAP = a("netherite_scrap", new Item((new Item.Info()).a(CreativeModeTab.l).a()));
-     public static final Item IRON_SWORD = a("iron_sword", (Item) (new ItemSword(EnumToolMaterial.IRON, 3, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
-@@ -612,6 +615,32 @@ public class Items {
-     public static final Item NETHERITE_SHOVEL = a("netherite_shovel", (Item) (new ItemSpade(EnumToolMaterial.NETHERITE, 1.5F, -3.0F, (new Item.Info()).a(CreativeModeTab.i).a())));
-     public static final Item NETHERITE_PICKAXE = a("netherite_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.NETHERITE, 1, -2.8F, (new Item.Info()).a(CreativeModeTab.i).a())));
-     public static final Item NETHERITE_AXE = a("netherite_axe", (Item) (new ItemAxe(EnumToolMaterial.NETHERITE, 5.0F, -3.0F, (new Item.Info()).a(CreativeModeTab.i).a())));
-+=======
-+    // Luminu start - old tool damage
-+    public static final Item IRON_SWORD = a("iron_sword", (Item) (new ItemSword(EnumToolMaterial.IRON, 4, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
-+    public static final Item WOODEN_SWORD = a("wooden_sword", (Item) (new ItemSword(EnumToolMaterial.WOOD, 4, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
-+    public static final Item WOODEN_SHOVEL = a("wooden_shovel", (Item) (new ItemSpade(EnumToolMaterial.WOOD, 1, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item WOODEN_PICKAXE = a("wooden_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.WOOD, 2, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item WOODEN_AXE = a("wooden_axe", (Item) (new ItemAxe(EnumToolMaterial.WOOD, 3, -3.2F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item STONE_SWORD = a("stone_sword", (Item) (new ItemSword(EnumToolMaterial.STONE, 4, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
-+    public static final Item STONE_SHOVEL = a("stone_shovel", (Item) (new ItemSpade(EnumToolMaterial.STONE, 1, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item STONE_PICKAXE = a("stone_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.STONE, 2, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item STONE_AXE = a("stone_axe", (Item) (new ItemAxe(EnumToolMaterial.STONE, 3, -3.2F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item DIAMOND_SWORD = a("diamond_sword", (Item) (new ItemSword(EnumToolMaterial.DIAMOND, 4, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
-+    public static final Item DIAMOND_SHOVEL = a("diamond_shovel", (Item) (new ItemSpade(EnumToolMaterial.DIAMOND, 1, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item DIAMOND_PICKAXE = a("diamond_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.DIAMOND, 2, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item DIAMOND_AXE = a("diamond_axe", (Item) (new ItemAxe(EnumToolMaterial.DIAMOND, 3, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
-+    // Luminu end
-+    public static final Item STICK = a("stick", new Item((new Item.Info()).a(CreativeModeTab.l)));
-+    public static final Item BOWL = a("bowl", new Item((new Item.Info()).a(CreativeModeTab.l)));
-+    public static final Item MUSHROOM_STEW = a("mushroom_stew", (Item) (new ItemSoup((new Item.Info()).a(1).a(CreativeModeTab.h).a(Foods.y))));
-+    // Luminu start - old tool damage
-+    public static final Item GOLDEN_SWORD = a("golden_sword", (Item) (new ItemSword(EnumToolMaterial.GOLD, 4, -2.4F, (new Item.Info()).a(CreativeModeTab.j))));
-+    public static final Item GOLDEN_SHOVEL = a("golden_shovel", (Item) (new ItemSpade(EnumToolMaterial.GOLD, 1, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item GOLDEN_PICKAXE = a("golden_pickaxe", (Item) (new ItemPickaxe(EnumToolMaterial.GOLD, 2, -2.8F, (new Item.Info()).a(CreativeModeTab.i))));
-+    public static final Item GOLDEN_AXE = a("golden_axe", (Item) (new ItemAxe(EnumToolMaterial.GOLD, 3, -3.0F, (new Item.Info()).a(CreativeModeTab.i))));
-+    // Luminu end
-+>>>>>>> Old combat mechanics
-     public static final Item STRING = a("string", (Item) (new ItemNamedBlock(Blocks.TRIPWIRE, (new Item.Info()).a(CreativeModeTab.f))));
-     public static final Item FEATHER = a("feather", new Item((new Item.Info()).a(CreativeModeTab.l)));
-     public static final Item GUNPOWDER = a("gunpowder", new Item((new Item.Info()).a(CreativeModeTab.l)));
+ }
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index e356ad6192154f38d4c573ae7c5894cce6d85728..5be73abef5afde3424fd243d48355c343656f0f6 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -868,6 +868,11 @@ public final class CraftServer implements Server {
+ 
+         org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
+         com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper
++        // Luminu start - old combat options
++        if (com.destroystokyo.paper.PaperConfig.oldToolDamage) {
++            net.minecraft.server.Items.setOldToolDamageValues();
++        }
++        // Luminu end
+         for (WorldServer world : console.getWorlds()) {
+             world.worldDataServer.setDifficulty(config.difficulty);
+             world.setSpawnFlags(config.spawnMonsters, config.spawnAnimals);

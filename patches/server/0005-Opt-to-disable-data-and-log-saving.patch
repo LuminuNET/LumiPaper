@@ -5,7 +5,7 @@ Subject: [PATCH] Opt to disable data and log saving
 
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 4c561181a977fd0244325880bb6a8cd6a54dcacc..743b36756a631199290cd1e928f863783e48b954 100644
+index 8b2755a3b95e472e884976195d1d3551fc260e39..84b8a2805b9774aac4d1150a9f7a0b94725e0073 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
 @@ -131,6 +131,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -24,7 +24,7 @@ index 4c561181a977fd0244325880bb6a8cd6a54dcacc..743b36756a631199290cd1e928f86378
          System.setOut(org.apache.logging.log4j.io.IoBuilder.forLogger(logger).setLevel(Level.INFO).buildPrintStream());
          System.setErr(org.apache.logging.log4j.io.IoBuilder.forLogger(logger).setLevel(Level.WARN).buildPrintStream());
 diff --git a/src/main/java/net/minecraft/server/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
-index 410d2595258cbf13900877ca4dd9d2872cb85eb0..18d27b8d4e8827ecf60ad8932896aba611b8d8bf 100644
+index f74a556b75b41c88c49df462b0f27ae1746c3b30..a0d9250f9f6242a5f5b5f641ee6098ebf624e05b 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
 @@ -55,6 +55,8 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
@@ -46,10 +46,10 @@ index 410d2595258cbf13900877ca4dd9d2872cb85eb0..18d27b8d4e8827ecf60ad8932896aba6
  
      // CraftBukkit start
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index e1d8a0e885cc9d7270c973cf947b4ab09f9e200b..dec5a1e19f04603eec492c31ac23485689fe0970 100644
+index 26f230a801bd8efa5f8b61dee53fe7b1435f906b..94014e082be227d8c6fa977b4b17988505dbf3a7 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -780,6 +780,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -779,6 +779,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              this.getServerConnection().b();
          }
  
@@ -58,7 +58,7 @@ index e1d8a0e885cc9d7270c973cf947b4ab09f9e200b..dec5a1e19f04603eec492c31ac234856
          if (this.playerList != null) {
              MinecraftServer.LOGGER.info("Saving players");
              this.playerList.savePlayers();
-@@ -833,6 +835,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -832,6 +834,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              this.getUserCache().c(false); // Paper
          }
          // Spigot end
@@ -66,7 +66,7 @@ index e1d8a0e885cc9d7270c973cf947b4ab09f9e200b..dec5a1e19f04603eec492c31ac234856
          // Paper start - move final shutdown items here
          LOGGER.info("Flushing Chunk IO");
          com.destroystokyo.paper.io.PaperFileIOThread.Holder.INSTANCE.close(true, true); // Paper
-@@ -1033,13 +1036,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1032,13 +1035,17 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
                  crashreport = this.b(new CrashReport("Exception in server tick loop", throwable));
              }
  

@@ -5,7 +5,7 @@ Subject: [PATCH] Player database id
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 97954bf5e7c0eb243d82902baa88bab030c25995..239569fb971afafaa067c749d6b367dc0b4cab86 100644
+index ffe0ebd9866a7899c1925cd4bfe22022236b2b8c..f73339de13bbdb72e1f7d106944042652412a5fd 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -113,6 +113,11 @@ public final class Bukkit {
@@ -21,7 +21,7 @@ index 97954bf5e7c0eb243d82902baa88bab030c25995..239569fb971afafaa067c749d6b367dc
  
      /**
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index f9b3a7316f84b917fe02444419055770bd02ecfe..57fcc76b43d74e8416f33f0d5a35dc08645f9be4 100644
+index 90ed0eb6fc9cd914f8e7707472bd16d2f5ec3bf4..d8ca34912b70c760ca0a09627f30d297576af6ee 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
 @@ -93,6 +93,9 @@ public interface Server extends PluginMessageRecipient {
@@ -35,10 +35,10 @@ index f9b3a7316f84b917fe02444419055770bd02ecfe..57fcc76b43d74e8416f33f0d5a35dc08
  
      /**
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index bdeb64c5c94d5f37fa437e527c37bea58d32aeec..01fc92b263dfdabb6801de4752fcb3a582ebde23 100644
+index 0c3f44e647204b4795176011f784fcf0c2d14a92..42e2fab033a8e708599b7ab888fa8f5e3de1da94 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -652,6 +652,23 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -666,6 +666,23 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      public void sendActionBar(char alternateChar, @NotNull String message);
  
      // Luminu start

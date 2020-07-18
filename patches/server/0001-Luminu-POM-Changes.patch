@@ -5,7 +5,7 @@ Subject: [PATCH] Luminu POM Changes
 
 
 diff --git a/pom.xml b/pom.xml
-index 2b24688310f14b6a9e3fe04fe8b41cd1803b78c1..925b7f347ebd8c4e2726b25c0bb475f85ac5f603 100644
+index ef8ee637a8a0e5e703922b2991c58f4f116b23fb..7db1838c748eff6060246e8ef1e7ae52210fbb9d 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -4,7 +4,7 @@
@@ -35,7 +35,7 @@ index 2b24688310f14b6a9e3fe04fe8b41cd1803b78c1..925b7f347ebd8c4e2726b25c0bb475f8
              <artifactId>paper-api</artifactId>
              <version>${project.version}</version>
              <scope>compile</scope>
-@@ -410,4 +410,17 @@
+@@ -415,4 +415,17 @@
              </build>
          </profile>
      </profiles>

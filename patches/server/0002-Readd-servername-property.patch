@@ -5,7 +5,7 @@ Subject: [PATCH] Readd servername property
 
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
-index 1122861a8f9c12668e7bd9d65e63fc9166a66d1a..410d2595258cbf13900877ca4dd9d2872cb85eb0 100644
+index 6786fd0947724069366a2375c710ec518a92f2b1..f74a556b75b41c88c49df462b0f27ae1746c3b30 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
 @@ -54,6 +54,7 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
@@ -25,10 +25,10 @@ index 1122861a8f9c12668e7bd9d65e63fc9166a66d1a..410d2595258cbf13900877ca4dd9d287
  
      // CraftBukkit start
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 94005471723187cba438670a7e52363959ad4d02..98be7bec56844c65832b6e20d9613cd16d6493ac 100644
+index d8103ab0d542ced4f30b88ceb4fc4c3eedd5d9a0..b28541d30a9bf27fa579dc9afb23b77447001de3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -504,6 +504,13 @@ public final class CraftServer implements Server {
+@@ -508,6 +508,13 @@ public final class CraftServer implements Server {
          return serverName;
      }
  
