@@ -1,5 +1,7 @@
 LumiPaper
 ==
+While our network is no longer running and this fork no longer maintained, the patches still work perfectly fine.
+Feel free to yoink patches, as long as the original header+author are kept.
 
 ## License
 The PATCHES-LICENSE.txt file describes the license for api, mojangapi, and server patches, 
@@ -17,7 +19,7 @@ LumiPaper-API maven dependency:
 <dependency>
     <groupId>net.luminu.paper</groupId>
     <artifactId>paper-api</artifactId>
-    <version>1.15.2-R0.1-SNAPSHOT</version>
+    <version>1.16.1-R0.1-SNAPSHOT</version>
     <scope>provided</scope>
  </dependency>
  ```
@@ -27,7 +29,7 @@ LumiPaper-API maven dependency:
 <dependency>
     <groupId>net.luminu.paper</groupId>
     <artifactId>paper</artifactId>
-    <version>1.15.2-R0.1-SNAPSHOT</version>
+    <version>1.16.1-R0.1-SNAPSHOT</version>
     <scope>provided</scope>
  </dependency>
   ```
