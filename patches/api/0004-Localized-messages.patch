@@ -57,7 +57,7 @@ index 0000000000000000000000000000000000000000..0892f0f07aa822d7cb449f88955bca48
 +    void sendMessage(@NotNull CommandSender sender, @NotNull String key, @Nullable String... replacements);
 +}
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index f73a71772ac402528bb7eac89596a12eb8bb36ab..ffe0ebd9866a7899c1925cd4bfe22022236b2b8c 100644
+index 3e30f89902d4d0943fa7fc3ba6bde1857c6de815..ef24dde9726735ac90a942f457bb5a298905bd2e 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -108,6 +108,11 @@ public final class Bukkit {
@@ -103,7 +103,7 @@ index f73a71772ac402528bb7eac89596a12eb8bb36ab..ffe0ebd9866a7899c1925cd4bfe22022
      /**
       * Sends the component to all online players.
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index c58cfd6fc3f79f12217fd66b46e36ddc4f27f7d6..90ed0eb6fc9cd914f8e7707472bd16d2f5ec3bf4 100644
+index f8fd83b5848529ad172a63577560e4000847e99c..0ab5b88f0b9c6f856c0691520a24dd005d482950 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
 @@ -13,6 +13,7 @@ import java.util.Set;
@@ -222,7 +222,7 @@ index d3b3a8bf94dac370ea254875e4d4a30894a70c67..88048354af5795277c18d76724686e66
       * Sends this sender multiple messages
       *
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 2eb3121386e3bc5ccdd74726a7c4b5f832ec5aea..0c3f44e647204b4795176011f784fcf0c2d14a92 100644
+index b584f8b15f7ee36b42bba0e0bae721aae8f6f14b..c27e53453339142ddc450a97c3615f4401d573ec 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -665,6 +665,31 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -255,9 +255,9 @@ index 2eb3121386e3bc5ccdd74726a7c4b5f832ec5aea..0c3f44e647204b4795176011f784fcf0
 +    // Luminu end
 +
      /**
-      * Sends the component to the player
+      * Sends an Action Bar message to the client.
       *
-@@ -1387,6 +1412,54 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1394,6 +1419,54 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void sendTitle(@Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut);
  
@@ -312,7 +312,7 @@ index 2eb3121386e3bc5ccdd74726a7c4b5f832ec5aea..0c3f44e647204b4795176011f784fcf0
      /**
       * Resets the title displayed to the player. This will clear the displayed
       * title / subtitle and reset timings to their default values.
-@@ -1629,8 +1702,19 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1636,8 +1709,19 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @return the player's locale
       */
      @NotNull
