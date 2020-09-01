@@ -5,18 +5,28 @@ Subject: [PATCH] Player database id
 
 
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index 787e80c50a61d6bd80efd8bd0d4b5140908aaeed..59359f0f5c159768ffac4b62a7165887bd56bea7 100644
+index 787e80c50a61d6bd80efd8bd0d4b5140908aaeed..00c4f4c97e6284cdd5462df2e20990b655adee77 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
-@@ -76,6 +76,7 @@ public abstract class PlayerList {
+@@ -22,6 +22,9 @@ import javax.annotation.Nullable;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ 
++import it.unimi.dsi.fastutil.ints.Int2ObjectMap; // Luminu
++import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap; // Luminu
++
+ // CraftBukkit start
+ import com.google.common.base.Predicate;
+ import com.google.common.collect.Iterables;
+@@ -76,6 +79,7 @@ public abstract class PlayerList {
      // CraftBukkit start
      private CraftServer cserver;
      private final Map<String,EntityPlayer> playersByName = new java.util.HashMap<>();
-+    public final it.unimi.dsi.fastutil.ints.Int2ObjectMap<EntityPlayer> playersById = new it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap<>(); // Luminu - database id
++    public final Int2ObjectMap<EntityPlayer> playersById = new Int2ObjectOpenHashMap<>(); // Luminu - database id
      @Nullable String collideRuleTeamName; // Paper - Team name used for collideRule
  
      public PlayerList(MinecraftServer minecraftserver, IRegistryCustom.Dimension iregistrycustom_dimension, WorldNBTStorage worldnbtstorage, int i) {
-@@ -259,6 +260,7 @@ public abstract class PlayerList {
+@@ -259,6 +263,7 @@ public abstract class PlayerList {
          playerconnection.a(entityplayer.locX(), entityplayer.locY(), entityplayer.locZ(), entityplayer.yaw, entityplayer.pitch);
          this.players.add(entityplayer);
          this.playersByName.put(entityplayer.getName().toLowerCase(java.util.Locale.ROOT), entityplayer); // Spigot
@@ -24,7 +34,7 @@ index 787e80c50a61d6bd80efd8bd0d4b5140908aaeed..59359f0f5c159768ffac4b62a7165887
          this.j.put(entityplayer.getUniqueID(), entityplayer);
          // this.sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, new EntityPlayer[]{entityplayer})); // CraftBukkit - replaced with loop below
  
-@@ -549,6 +551,7 @@ public abstract class PlayerList {
+@@ -549,6 +554,7 @@ public abstract class PlayerList {
          entityplayer.getAdvancementData().a();
          this.players.remove(entityplayer);
          this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
@@ -32,7 +42,7 @@ index 787e80c50a61d6bd80efd8bd0d4b5140908aaeed..59359f0f5c159768ffac4b62a7165887
          this.server.getBossBattleCustomData().b(entityplayer);
          UUID uuid = entityplayer.getUniqueID();
          EntityPlayer entityplayer1 = (EntityPlayer) this.j.get(uuid);
-@@ -720,6 +723,7 @@ public abstract class PlayerList {
+@@ -720,6 +726,7 @@ public abstract class PlayerList {
          entityplayer.stopRiding(); // CraftBukkit
          this.players.remove(entityplayer);
          this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
@@ -40,7 +50,7 @@ index 787e80c50a61d6bd80efd8bd0d4b5140908aaeed..59359f0f5c159768ffac4b62a7165887
          entityplayer.getWorldServer().removePlayer(entityplayer);
          BlockPosition blockposition = entityplayer.getSpawn();
          float f = entityplayer.getSpawnAngle();
-@@ -861,6 +865,7 @@ public abstract class PlayerList {
+@@ -861,6 +868,7 @@ public abstract class PlayerList {
              worldserver1.addPlayerRespawn(entityplayer1);
              this.players.add(entityplayer1);
              this.playersByName.put(entityplayer1.getName().toLowerCase(java.util.Locale.ROOT), entityplayer1); // Spigot
