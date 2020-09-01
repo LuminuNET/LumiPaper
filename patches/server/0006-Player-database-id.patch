@@ -5,7 +5,7 @@ Subject: [PATCH] Player database id
 
 
 diff --git a/src/main/java/net/minecraft/server/PlayerList.java b/src/main/java/net/minecraft/server/PlayerList.java
-index 9382e8f79e8edec8885c629a36e230fbec50e1fb..4dc687f90bffc63d8938f73a531ad3f2398ed494 100644
+index 787e80c50a61d6bd80efd8bd0d4b5140908aaeed..59359f0f5c159768ffac4b62a7165887bd56bea7 100644
 --- a/src/main/java/net/minecraft/server/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/PlayerList.java
 @@ -76,6 +76,7 @@ public abstract class PlayerList {
@@ -24,7 +24,7 @@ index 9382e8f79e8edec8885c629a36e230fbec50e1fb..4dc687f90bffc63d8938f73a531ad3f2
          this.j.put(entityplayer.getUniqueID(), entityplayer);
          // this.sendAll(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, new EntityPlayer[]{entityplayer})); // CraftBukkit - replaced with loop below
  
-@@ -548,6 +550,7 @@ public abstract class PlayerList {
+@@ -549,6 +551,7 @@ public abstract class PlayerList {
          entityplayer.getAdvancementData().a();
          this.players.remove(entityplayer);
          this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
@@ -32,15 +32,15 @@ index 9382e8f79e8edec8885c629a36e230fbec50e1fb..4dc687f90bffc63d8938f73a531ad3f2
          this.server.getBossBattleCustomData().b(entityplayer);
          UUID uuid = entityplayer.getUniqueID();
          EntityPlayer entityplayer1 = (EntityPlayer) this.j.get(uuid);
-@@ -719,6 +722,7 @@ public abstract class PlayerList {
+@@ -720,6 +723,7 @@ public abstract class PlayerList {
          entityplayer.stopRiding(); // CraftBukkit
          this.players.remove(entityplayer);
          this.playersByName.remove(entityplayer.getName().toLowerCase(java.util.Locale.ROOT)); // Spigot
 +        this.playersById.remove(entityplayer.getBukkitEntity().getDatabaseId()); // Luminu - database id
          entityplayer.getWorldServer().removePlayer(entityplayer);
          BlockPosition blockposition = entityplayer.getSpawn();
-         boolean flag1 = entityplayer.isSpawnForced();
-@@ -849,6 +853,7 @@ public abstract class PlayerList {
+         float f = entityplayer.getSpawnAngle();
+@@ -861,6 +865,7 @@ public abstract class PlayerList {
              worldserver1.addPlayerRespawn(entityplayer1);
              this.players.add(entityplayer1);
              this.playersByName.put(entityplayer1.getName().toLowerCase(java.util.Locale.ROOT), entityplayer1); // Spigot
@@ -49,10 +49,10 @@ index 9382e8f79e8edec8885c629a36e230fbec50e1fb..4dc687f90bffc63d8938f73a531ad3f2
          }
          // entityplayer1.syncInventory();
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 174c8215d507ab7dc09637545354dc1b67729050..4e2ab148a3ecbb24bbab9049c76e57d6e5e89bf3 100644
+index d80bdc539532b70bea21e4247541343182c3fc9d..a340049cdb9a7291afdcdeed5fb2a0f88324e7aa 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -520,6 +520,12 @@ public final class CraftServer implements Server {
+@@ -519,6 +519,12 @@ public final class CraftServer implements Server {
      public net.luminu.paper.locale.PaperLocaleProvider getLocaleProvider() {
          return localeProvider;
      }
@@ -66,10 +66,10 @@ index 174c8215d507ab7dc09637545354dc1b67729050..4e2ab148a3ecbb24bbab9049c76e57d6
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 723996a703efea72d3dbf7e84a0555891b3106a8..84fb9154a267f8c1585ccfa14793667363565775 100644
+index d1d8f8ddf80a50777f37b6f12f5946e965d9e3f3..4e711ef86bdb89ec2887e23c6fd70b314961d0d9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -1969,6 +1969,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1962,6 +1962,17 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      // Luminu start
      private java.util.Locale locale = java.util.Locale.GERMAN;

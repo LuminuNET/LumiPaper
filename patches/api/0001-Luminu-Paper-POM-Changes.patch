@@ -5,7 +5,7 @@ Subject: [PATCH] Luminu Paper POM Changes
 
 
 diff --git a/pom.xml b/pom.xml
-index cb37aea9d7f60b54b95b5cf1798d5a6c5c0e7c14..3fb99bb9200775bc272581c9f01aeb26b81deb3f 100644
+index 1a34f6880b45e3c46a8e29575b549f3a601721e7..4fe4d2430dc21c9e57232d8ebaacc07780e7aab9 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -3,17 +3,17 @@
@@ -21,7 +21,7 @@ index cb37aea9d7f60b54b95b5cf1798d5a6c5c0e7c14..3fb99bb9200775bc272581c9f01aeb26
  
 -    <groupId>com.destroystokyo.paper</groupId>
      <artifactId>paper-api</artifactId>
-     <version>1.16.1-R0.1-SNAPSHOT</version>
+     <version>1.16.2-R0.1-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 -    <name>Paper-API</name>

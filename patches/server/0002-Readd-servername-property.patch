@@ -5,10 +5,10 @@ Subject: [PATCH] Readd servername property
 
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
-index 6786fd0947724069366a2375c710ec518a92f2b1..f74a556b75b41c88c49df462b0f27ae1746c3b30 100644
+index 23f8e144fc6256bcc71269c03642172f3469fc4b..679865e1198bdbb4321d21910804febcc723f7f1 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
-@@ -54,6 +54,7 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
+@@ -55,6 +55,7 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
      public final PropertyManager<DedicatedServerProperties>.EditableProperty<Integer> playerIdleTimeout;
      public final PropertyManager<DedicatedServerProperties>.EditableProperty<Boolean> whiteList;
      public final GeneratorSettings generatorSettings;
@@ -16,19 +16,19 @@ index 6786fd0947724069366a2375c710ec518a92f2b1..f74a556b75b41c88c49df462b0f27ae1
  
      public final String rconIp; // Paper - Add rcon ip
  
-@@ -111,6 +112,7 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
-         final String rconIp = this.getSettingIfExists("rcon.ip");
+@@ -113,6 +114,7 @@ public class DedicatedServerProperties extends PropertyManager<DedicatedServerPr
          this.rconIp = rconIp == null ? this.serverIp : rconIp;
          // Paper end
+         this.generatorSettings = GeneratorSettings.a(iregistrycustom, properties);
 +        this.serverName = this.getString("server-name", "Unknown server"); // Luminu - readd servername
      }
  
      // CraftBukkit start
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d8103ab0d542ced4f30b88ceb4fc4c3eedd5d9a0..b28541d30a9bf27fa579dc9afb23b77447001de3 100644
+index 5f5b39b3b7e56e935d1f964fbfc3385a65b7e178..b7127f5b2be7e52ec9458e97ddd531e6fb2b4b0b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -508,6 +508,13 @@ public final class CraftServer implements Server {
+@@ -507,6 +507,13 @@ public final class CraftServer implements Server {
          return serverName;
      }
  

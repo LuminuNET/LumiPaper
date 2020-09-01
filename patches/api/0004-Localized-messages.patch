@@ -57,7 +57,7 @@ index 0000000000000000000000000000000000000000..0892f0f07aa822d7cb449f88955bca48
 +    void sendMessage(@NotNull CommandSender sender, @NotNull String key, @Nullable String... replacements);
 +}
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 3e30f89902d4d0943fa7fc3ba6bde1857c6de815..ef24dde9726735ac90a942f457bb5a298905bd2e 100644
+index 5d4901c8c1ffcfefe31e0e4db5191180963dd43a..8e150df237e0ddb328326c2116e86dd66c2e947b 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -108,6 +108,11 @@ public final class Bukkit {
@@ -72,7 +72,7 @@ index 3e30f89902d4d0943fa7fc3ba6bde1857c6de815..ef24dde9726735ac90a942f457bb5a29
      // Luminu end
  
      /**
-@@ -298,6 +303,29 @@ public final class Bukkit {
+@@ -309,6 +314,29 @@ public final class Bukkit {
          return server.broadcastMessage(message);
      }
  
@@ -103,7 +103,7 @@ index 3e30f89902d4d0943fa7fc3ba6bde1857c6de815..ef24dde9726735ac90a942f457bb5a29
      /**
       * Sends the component to all online players.
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index f8fd83b5848529ad172a63577560e4000847e99c..0ab5b88f0b9c6f856c0691520a24dd005d482950 100644
+index 3dec761ca07b5ad38beba9284db57aea81a770f6..3aa6ddcd9472fb4f8b6a0e7ca32f430782da8c15 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
 @@ -13,6 +13,7 @@ import java.util.Set;
@@ -124,7 +124,7 @@ index f8fd83b5848529ad172a63577560e4000847e99c..0ab5b88f0b9c6f856c0691520a24dd00
      // Luminu end
  
      /**
-@@ -245,6 +249,33 @@ public interface Server extends PluginMessageRecipient {
+@@ -254,6 +258,33 @@ public interface Server extends PluginMessageRecipient {
       */
      public int broadcastMessage(@NotNull String message);
  
@@ -222,7 +222,7 @@ index d3b3a8bf94dac370ea254875e4d4a30894a70c67..88048354af5795277c18d76724686e66
       * Sends this sender multiple messages
       *
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index b584f8b15f7ee36b42bba0e0bae721aae8f6f14b..c27e53453339142ddc450a97c3615f4401d573ec 100644
+index 991f757a89d2e917186bb152a2f92bad8b6c2897..12d554abfc7a9494fdf1b873fdd2d3d86b7ef21a 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -665,6 +665,31 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM

@@ -5,7 +5,7 @@ Subject: [PATCH] Old combat mechanics
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
-index 741c06a27e664211a7023a6369f8e69cbb41a321..4eda8349e42a90ed260aa7cbc60a0829fbe7af5e 100644
+index f65d3545039a2c471819ab5950c171ef6193cdb4..5838b63cea4a764077fd84217674d04218892597 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperConfig.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 @@ -222,6 +222,19 @@ public class PaperConfig {
@@ -29,7 +29,7 @@ index 741c06a27e664211a7023a6369f8e69cbb41a321..4eda8349e42a90ed260aa7cbc60a0829
      private static void loadPermsBeforePlugins() {
          loadPermsBeforePlugins = getBoolean("settings.load-permissions-yml-before-plugins", true);
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 84b8a2805b9774aac4d1150a9f7a0b94725e0073..3a7b21ac1e0ab3b009d43d437f1f0142bd1d0702 100644
+index 7bd1bdae0a4112811db5f3d0b987d631706a3fbe..2beb93f6902617f21bcb2e2a4d9c54022a711dda 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
 @@ -178,6 +178,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -63,10 +63,10 @@ index 4571cdf0217d840a32427efeeb5d8b993bdcf326..3bebd881a8593cbc85551d3c4fd2b1e6
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/EntityHuman.java b/src/main/java/net/minecraft/server/EntityHuman.java
-index 2cada09ced1660526e9c112c2c8d92bbf9d6ea98..5c26317ca1be994aa42bfb7999bcd5cc81478f91 100644
+index ce4ebc96c01f3dacf4e4d0569d86f52140440d43..0778a6444ae576f1da5c89385ff7398786bb5195 100644
 --- a/src/main/java/net/minecraft/server/EntityHuman.java
 +++ b/src/main/java/net/minecraft/server/EntityHuman.java
-@@ -1044,6 +1044,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1039,6 +1039,7 @@ public abstract class EntityHuman extends EntityLiving {
                      int i = b0 + EnchantmentManager.b((EntityLiving) this);
  
                      if (this.isSprinting() && flag) {
@@ -74,7 +74,7 @@ index 2cada09ced1660526e9c112c2c8d92bbf9d6ea98..5c26317ca1be994aa42bfb7999bcd5cc
                          sendSoundEffect(this, this.locX(), this.locY(), this.locZ(), SoundEffects.ENTITY_PLAYER_ATTACK_KNOCKBACK, this.getSoundCategory(), 1.0F, 1.0F); // Paper - send while respecting visibility
                          ++i;
                          flag1 = true;
-@@ -1061,7 +1062,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1056,7 +1057,7 @@ public abstract class EntityHuman extends EntityLiving {
                      boolean flag3 = false;
                      double d0 = (double) (this.A - this.z);
  
@@ -83,7 +83,7 @@ index 2cada09ced1660526e9c112c2c8d92bbf9d6ea98..5c26317ca1be994aa42bfb7999bcd5cc
                          ItemStack itemstack = this.b(EnumHand.MAIN_HAND);
  
                          if (itemstack.getItem() instanceof ItemSword) {
-@@ -1212,6 +1213,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1207,6 +1208,7 @@ public abstract class EntityHuman extends EntityLiving {
  
                          this.applyExhaustion(world.spigotConfig.combatExhaustion); // Spigot - Change to use configurable value
                      } else {
@@ -92,10 +92,10 @@ index 2cada09ced1660526e9c112c2c8d92bbf9d6ea98..5c26317ca1be994aa42bfb7999bcd5cc
                          if (flag4) {
                              entity.extinguish();
 diff --git a/src/main/java/net/minecraft/server/EntityLiving.java b/src/main/java/net/minecraft/server/EntityLiving.java
-index c388999d104682b84b5f0936efce9d270247d08c..7cf5795af11df40c806bd66caf4292a2aa118a05 100644
+index f4ea14d66320e6799f0d1a91de9a3c63423a6c3e..27a9a7dc102b956b2434b6af13c3e0b7399e479d 100644
 --- a/src/main/java/net/minecraft/server/EntityLiving.java
 +++ b/src/main/java/net/minecraft/server/EntityLiving.java
-@@ -1566,7 +1566,12 @@ public abstract class EntityLiving extends Entity {
+@@ -1564,7 +1564,12 @@ public abstract class EntityLiving extends Entity {
              Vec3D vec3d = this.getMot();
              Vec3D vec3d1 = (new Vec3D(d0, 0.0D, d1)).d().a((double) f);
  
@@ -149,10 +149,10 @@ index f62734285def730272b49e1c1223e56baae1c342..ee877904ed289349e8d0c5cd635fcb4d
  
      protected ItemTool(float f, float f1, ToolMaterial toolmaterial, Set<Block> set, Item.Info item_info) {
 diff --git a/src/main/java/net/minecraft/server/Items.java b/src/main/java/net/minecraft/server/Items.java
-index 89a9eec99426a7cb8bfa9da38a441fd51e2dac35..cd119c3881f3773cd9fd01cc6414af7ceb15055e 100644
+index 1c861bccc2652057cb154667a5bf7269092b2db4..bae8820b89e6edce4b4262ce8d497000718cc85c 100644
 --- a/src/main/java/net/minecraft/server/Items.java
 +++ b/src/main/java/net/minecraft/server/Items.java
-@@ -1005,4 +1005,44 @@ public class Items {
+@@ -1006,4 +1006,44 @@ public class Items {
  
          return (Item) IRegistry.a((IRegistry) IRegistry.ITEM, minecraftkey, (Object) item);
      }
@@ -198,10 +198,10 @@ index 89a9eec99426a7cb8bfa9da38a441fd51e2dac35..cd119c3881f3773cd9fd01cc6414af7c
 +    // Luminu end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e356ad6192154f38d4c573ae7c5894cce6d85728..5be73abef5afde3424fd243d48355c343656f0f6 100644
+index a340049cdb9a7291afdcdeed5fb2a0f88324e7aa..2d2841b3f0d260e3839579399d107787ab0c4cdd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -868,6 +868,11 @@ public final class CraftServer implements Server {
+@@ -874,6 +874,11 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper
