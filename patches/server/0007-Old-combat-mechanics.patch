@@ -29,10 +29,10 @@ index f65d3545039a2c471819ab5950c171ef6193cdb4..5838b63cea4a764077fd84217674d042
      private static void loadPermsBeforePlugins() {
          loadPermsBeforePlugins = getBoolean("settings.load-permissions-yml-before-plugins", true);
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 7bd1bdae0a4112811db5f3d0b987d631706a3fbe..2beb93f6902617f21bcb2e2a4d9c54022a711dda 100644
+index 7a421f09b85bb6f03668acad1db7a0cebe2722f0..7b15d20bba5aa27d19bb487848398ea71777f3d4 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -178,6 +178,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -174,6 +174,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          com.destroystokyo.paper.PaperConfig.registerCommands();
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
          // Paper end
@@ -92,10 +92,10 @@ index ce4ebc96c01f3dacf4e4d0569d86f52140440d43..0778a6444ae576f1da5c89385ff73987
                          if (flag4) {
                              entity.extinguish();
 diff --git a/src/main/java/net/minecraft/server/EntityLiving.java b/src/main/java/net/minecraft/server/EntityLiving.java
-index f4ea14d66320e6799f0d1a91de9a3c63423a6c3e..27a9a7dc102b956b2434b6af13c3e0b7399e479d 100644
+index 76185f042dd773f267dc7574116cec7bd8a28ca8..4e04795bc4a8312703af182a8833ec3ba9067ef9 100644
 --- a/src/main/java/net/minecraft/server/EntityLiving.java
 +++ b/src/main/java/net/minecraft/server/EntityLiving.java
-@@ -1564,7 +1564,12 @@ public abstract class EntityLiving extends Entity {
+@@ -1565,7 +1565,12 @@ public abstract class EntityLiving extends Entity {
              Vec3D vec3d = this.getMot();
              Vec3D vec3d1 = (new Vec3D(d0, 0.0D, d1)).d().a((double) f);
  
@@ -198,10 +198,10 @@ index 1c861bccc2652057cb154667a5bf7269092b2db4..bae8820b89e6edce4b4262ce8d497000
 +    // Luminu end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index a340049cdb9a7291afdcdeed5fb2a0f88324e7aa..2d2841b3f0d260e3839579399d107787ab0c4cdd 100644
+index 2148dc7656b052e14c9e06385688637ce2485c76..6b1b441204b0dbb87d98e275f42f88de0aa34bdb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -874,6 +874,11 @@ public final class CraftServer implements Server {
+@@ -876,6 +876,11 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper

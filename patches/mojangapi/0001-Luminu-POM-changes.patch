@@ -43,11 +43,11 @@ index 0000000000000000000000000000000000000000..e431e3435737e28394d81b56568a08b3
 +*.iws
 +.idea/
 diff --git a/pom.xml b/pom.xml
-index 03a17db3726c8bc074caa29bde7585f58583c75c..084d9ef35f16bd12cc6b2e72d2b00a73ea7b9cfa 100644
+index 0ac10a3f0070ee37b75691c01634ab2d884b1e8a..8093f04b9d3d358b0a3046e8572b24fc2ea2a389 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -13,7 +13,7 @@
-     <version>1.16.2-R0.1-SNAPSHOT</version>
+     <version>1.16.3-R0.1-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 -    <name>Paper-MojangAPI</name>

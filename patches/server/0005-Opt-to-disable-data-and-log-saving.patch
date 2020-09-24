@@ -5,12 +5,12 @@ Subject: [PATCH] Opt to disable data and log saving
 
 
 diff --git a/src/main/java/net/minecraft/server/DedicatedServer.java b/src/main/java/net/minecraft/server/DedicatedServer.java
-index 1c878265be0f458ff264bc4a4011397e5b60b20e..7bd1bdae0a4112811db5f3d0b987d631706a3fbe 100644
+index f55dc28f3e220966199ec718a437e50ef4b76027..7a421f09b85bb6f03668acad1db7a0cebe2722f0 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/DedicatedServer.java
-@@ -131,6 +131,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
-         */
-         // Paper end
+@@ -133,6 +133,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+         System.setErr(IoBuilder.forLogger(logger).setLevel(Level.WARN).buildPrintStream());
+         // CraftBukkit end
  
 +        // Luminu start - option to disable log file saving
 +        java.util.Map<String, org.apache.logging.log4j.core.Appender> appenders = ((org.apache.logging.log4j.core.Logger) LogManager.getRootLogger()).getAppenders();
@@ -20,9 +20,9 @@ index 1c878265be0f458ff264bc4a4011397e5b60b20e..7bd1bdae0a4112811db5f3d0b987d631
 +        }
 +        // Luminu end
 +
-         // Paper start - Use Log4j IOStreams
-         System.setOut(org.apache.logging.log4j.io.IoBuilder.forLogger(logger).setLevel(Level.INFO).buildPrintStream());
-         System.setErr(org.apache.logging.log4j.io.IoBuilder.forLogger(logger).setLevel(Level.WARN).buildPrintStream());
+         thread.setDaemon(true);
+         thread.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(DedicatedServer.LOGGER));
+         thread.start();
 diff --git a/src/main/java/net/minecraft/server/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/DedicatedServerProperties.java
 index 679865e1198bdbb4321d21910804febcc723f7f1..ac536c25ea417beea455a2ca30593409f23686d6 100644
 --- a/src/main/java/net/minecraft/server/DedicatedServerProperties.java
@@ -46,7 +46,7 @@ index 679865e1198bdbb4321d21910804febcc723f7f1..ac536c25ea417beea455a2ca30593409
  
      // CraftBukkit start
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index bbe793ca3667264eafa094bfea1c061011c73b92..65d32250d5e5f815d111ec6b5a291f09a1544b62 100644
+index 883c17f00b3766b1e4e308bf9baf0ab07d6475bf..92b90189331da77b4693032fcfa3118f3f9210c1 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -778,6 +778,8 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
